@@ -8,9 +8,9 @@ import {
   Header,
   Navbar,
   Footer,
-  AdminSidebar,
   ThemeSettings,
 } from "../../components/Tailwind/components";
+import AdminSidebar from "../../components/Admin/AdminSideBar/AdminSidebar";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import DispatchedOrders from "./DispatchedOrders";
 import axios from "axios";
