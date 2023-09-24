@@ -4,11 +4,11 @@ import { useStateContext } from '../../contexts/ContextProvider.js';
 import TableData from '../../components/Tailwind/components/Table/TableData.jsx';
 import TableHeader from '../../components/Tailwind/components/Table/TableHeader.jsx';
 import { FiSettings } from 'react-icons/fi';
-import { Header, Navbar, Footer, AdminSidebar, ThemeSettings } from '../../components/Tailwind/components';
+import { Header, Navbar, Footer, ThemeSettings } from '../../components/Tailwind/components';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 import DispatchedOrders from './DispatchedOrders';
 import axios from 'axios';
-
+import AdminSidebar from "../../components/Admin/AdminSideBar/AdminSidebar";
 
 import { ToastContainer,toast,Zoom,Bounce } from 'react-toastify'
 

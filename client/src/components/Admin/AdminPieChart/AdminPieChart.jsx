@@ -1,8 +1,8 @@
 import React, { useState, useEffect }from 'react'
 import { AccumulationChartComponent, AccumulationSeriesCollectionDirective, AccumulationSeriesDirective, Inject, PieSeries, AccumulationDataLabel, AccumulationLegend, AccumulationTooltip } from '@syncfusion/ej2-react-charts';
 import axios from 'axios';
-import { useStateContext } from '../../../../src/contexts/ContextProvider';
-import ChartsHeader from './ChartsHeader';
+import { useStateContext } from '../../../contexts/ContextProvider';
+import ChartsHeader from '../../Tailwind/components/ChartsHeader';
 
 const AdminPieChart = ({pending,confirmed,refunded,dispatched}) => {
     // const [machinery, setMachinery] = useState([]);
