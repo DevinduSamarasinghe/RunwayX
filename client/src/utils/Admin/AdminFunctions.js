@@ -25,7 +25,8 @@ export const getOrderCount = (setDispatched, setConfirmed, setPending, setRefund
     });
   };
 
-  export const calcTotal = (total,orders,setTotals) => {
+  export const calcTotal = (orders,setTotals) => {
+    let total = 0;
     orders.map((order) => {
       if (
         order.status === "Dispatched" ||
