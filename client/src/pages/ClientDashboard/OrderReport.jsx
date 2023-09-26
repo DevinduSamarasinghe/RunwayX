@@ -10,14 +10,16 @@ import {
   Footer,
   ThemeSettings,
 } from "../../components/Tailwind/components";
-import AdminSidebar from "../../components/Admin/AdminSideBar/AdminSidebar";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
-import DispatchedOrders from "./DispatchedOrders";
+import ClientSideBar from "../../components/Tailwind/components/ClientSidebar.jsx";
+
 import axios from "axios";
+import { jsPDF } from "jspdf";
+import { ToastContainer} from "react-toastify";
 
-import { ToastContainer, toast, Zoom, Bounce } from "react-toastify";
+/* IMPORT ALL YOUR IMPORTS AS USUAL ABOVE HERE, REMOVE UNNECESSARY ONES*/
 
-const ConfirmedOrders = () => {
+const OrderReport = () => {
   const {
     setCurrentColor,
     setCurrentMode,
@@ -30,10 +32,11 @@ const ConfirmedOrders = () => {
 
   const [orders, setOrders] = useState([]);
 
-  //get orders
   const getOrders = async () => {
     await axios
-      .get(`http://localhost:8070/orders`)
+      .get(
+        `http://localhost:8070/orders/email/${localStorage.getItem("email")}`
+      )
       .then((res) => {
         console.log(res.data);
         setOrders(res.data);
@@ -56,31 +59,6 @@ const ConfirmedOrders = () => {
     }
   }, []);
 
-  //status change
-  const orderStatus = async (id, stat) => {
-    try {
-      let status = null;
-      if (stat === "Reject") {
-        status = "Refunded";
-      } else if (stat === "Approve") {
-        status = "Dispatched";
-      }
-      await axios
-        .patch(`http://localhost:8083/orders/updateStatus`, { id, status }) //update status
-        .then((res) => {
-          console.log(res.data);
-          console.log("order Status Updated");
-          if (status == "Dispatched") {
-            toast.success("Order Successfully Dispatched!");
-          } else {
-            toast.warn("Order Rejected!");
-          }
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   //using the formatter
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -88,6 +66,21 @@ const ConfirmedOrders = () => {
     minimumFractionDigits: 2,
     currencyDisplay: "symbol",
   });
+
+  const createPDF = () => {
+    const date = new Date(Date.now()).toISOString().split("T")[0];
+    const pdf = new jsPDF("landscape", "px", "a1", false);
+    const data = document.querySelector("#tableContainer");
+    pdf.html(data).then(() => {
+      pdf.save("Orders-" + date + ".pdf");
+    });
+  };
+
+      //getDAte
+      const current = new Date();
+      const currentdate = `${current.getFullYear()}-${
+        current.getMonth() + 1
+      }-${current.getDate()}`;
 
   return (
     <div>
@@ -113,11 +106,11 @@ const ConfirmedOrders = () => {
 
           {activeMenu ? ( // SIDEBAR IMPLEMENTATION
             <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
-              <AdminSidebar />
+              <ClientSideBar />
             </div>
           ) : (
             <div className="w-0 dark:bg-secondary-dark-bg">
-              <AdminSidebar />
+              <ClientSideBar />
             </div>
           )}
 
@@ -141,11 +134,47 @@ const ConfirmedOrders = () => {
                 {/* COPY YOUR ORIGINAL COMPONENT CODE HERE */}
                 {/* PART AFTER THE RETURN STATEMENT */}
                 <div>
-                  <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl dark:bg-secondary-dark-bg dark:text-white">
-                    <Header title="Confirmed Orders " />
+                  <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl dark:bg-secondary-dark-bg dark:text-white display">
+                  <div style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: "20px"
+                    }}>
+                    <Header title="Your Orders " />
+                    <Link to="/orderReport">
+                      <div className="mr-0 ml-auto">
+                      <button
+                        onClick={createPDF}
+                        type="button"
+                        className="font-bold py-1 px-4 rounded-md mx-3 my-1 text-white  hover:bg-slate-700 bg-slate-500"
+                      >
+                        Download Report 
+                      </button>
+                    </div>
+                      </Link>
+                    </div>
 
-                    <div className=" flex items-center mb-5 "></div>
-                    <div className="block w-full overflow-x-auto rounded-lg">
+                    <div className=" flex items-center mb-5 ">
+
+                    </div>
+                    <div className="block w-full overflow-x-auto rounded-lg" id="tableContainer">
+                    <div className="flex flex-wrap lg:flex-nowrap justify-center mt-5">
+                          {/* <img
+                          className="h-200 w-400 mb-5"
+                          //src={logo}
+                          alt="logo"
+                        /> */}
+                        </div>
+
+                        <div className="text-center mb-10">
+                          <p className="text-xl mt-2">RunwayX,</p>
+                          <p className="text-xl">No.124, Colombo 7</p>
+                          <p>011 2942 672</p>
+                        </div>
+                        <p className="text-right text-xl mt-2 mb-3">
+                          Generated On : {currentdate}
+                        </p>
                       <table className="w-full rounded-lg">
                         <thead>
                           <tr className="bg-slate-200 text-md h-12 dark:bg-slate-800">
@@ -154,12 +183,21 @@ const ConfirmedOrders = () => {
                             <TableHeader value="Gross Price" />
                             <TableHeader value="Commission" />
                             <TableHeader value="Status" />
-                            <TableHeader value="Action" />
                           </tr>
                         </thead>
                         <tbody>
                           {orders.map((data) => {
-                            if (data.status === "Confirmed") {
+                            if (data.status !== "cart") {
+                              let datacolor = "text-black ";
+                              if (data.status === "Pending") {
+                                datacolor = "text-orange-800 font-bold font-bold dark:text-orange-400";
+                              } else if(data.status === "Confirmed") {
+                                datacolor = "text-blue-800 font-bold font-bold dark:text-blue-400";
+                              } else if(data.status === "Dispatched") {
+                                datacolor = "text-green-700 font-bold"
+                              } else if(data.status === "Refunded") {
+                                datacolor = "text-red-700 font-bold"
+                              }
                               return (
                                 <tr className="text-sm h-10 border dark:border-slate-600">
                                   <TableData value={data._id} />
@@ -170,43 +208,10 @@ const ConfirmedOrders = () => {
                                   <TableData
                                     value={formatter.format(data.total * 0.15)}
                                   />
-                                  <TableData value={data.status} />
-                                  <td className="text-center px-3 align-middle border-l-0 border-r-0 text-m whitespace-nowrap p-3">
-                                    <button
-                                      type="button"
-                                      className="font-bold py-1 px-4 rounded-full mx-3 text-white"
-                                      style={{ background: currentColor }}
-                                      value="Approve"
-                                      onClick={() =>
-                                        orderStatus(data._id, "Approve")
-                                      }
-                                    >
-                                      {" "}
-                                      Dispatch Order
-                                      <i className="fas fa-edit" />
-                                    </button>
-
-                                    <button
-                                      type="button"
-                                      className="font-bold py-1 px-4 rounded-full mx-3 text-white"
-                                      style={{ background: "red" }}
-                                      onClick={() =>
-                                        orderStatus(data._id, "Reject")
-                                      }
-                                    >
-                                      {" "}
-                                      Refund Order
-                                      <i className="fas fa-edit" />
-                                    </button>
-
-                                    <Link to={`/orders/${data._id}`}>
-                                      <button
-                                        type="button"
-                                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-4 rounded-full"
-                                      >
-                                        View Order
-                                      </button>
-                                    </Link>
+                                  <td
+                                    className={`${datacolor} text-center px-3 align-middle border-l-0 border-r-0 text-m whitespace-nowrap p-3`}
+                                  >
+                                    <TableData value={data.status} />
                                   </td>
                                 </tr>
                               );
@@ -229,4 +234,4 @@ const ConfirmedOrders = () => {
   );
 };
 
-export default ConfirmedOrders;
+export default OrderReport;

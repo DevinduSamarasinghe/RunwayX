@@ -14,8 +14,7 @@ import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import ClientSideBar from "../../components/Tailwind/components/ClientSidebar.jsx";
 
 import axios from "axios";
-
-import { ToastContainer, toast, Zoom, Bounce } from "react-toastify";
+import { ToastContainer} from "react-toastify";
 
 /* IMPORT ALL YOUR IMPORTS AS USUAL ABOVE HERE, REMOVE UNNECESSARY ONES*/
 
@@ -59,31 +58,6 @@ const ClientOrders = () => {
     }
   }, []);
 
-  //status change
-  const orderStatus = async (id, stat) => {
-    try {
-      let status = null;
-      if (stat === "Reject") {
-        status = "Refunded";
-      } else if (stat === "Approve") {
-        status = "Dispatched";
-      }
-      await axios
-        .patch(`http://localhost:8083/orders/updateStatus`, { id, status })
-        .then((res) => {
-          console.log(res.data);
-          console.log("order Status Updated");
-          if (status == "Dispatched") {
-            toast.success("Order Successfully Dispatched!");
-          } else {
-            toast.warn("Order Rejected!");
-          }
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   //using the formatter
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -92,8 +66,9 @@ const ClientOrders = () => {
     currencyDisplay: "symbol",
   });
 
+
   return (
-    <div>
+    <div> 
       {/* DON'T CHANGE ANYTHING HERE */}
 
       <div className={currentMode === "Dark" ? "dark" : ""}>
@@ -144,11 +119,30 @@ const ClientOrders = () => {
                 {/* COPY YOUR ORIGINAL COMPONENT CODE HERE */}
                 {/* PART AFTER THE RETURN STATEMENT */}
                 <div>
-                  <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl dark:bg-secondary-dark-bg dark:text-white">
+                  <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl dark:bg-secondary-dark-bg dark:text-white display">
+                    <div style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: "20px"
+                    }}>
                     <Header title="Your Orders " />
+                    <Link to="/orderReport">
+                      <div className="mr-0 ml-auto">
+                      <button
+                        type="button"
+                        className="font-bold py-1 px-4 rounded-md mx-3 my-1 text-white  hover:bg-slate-700 bg-slate-500"
+                      >
+                        Show Report
+                      </button>
+                    </div>
+                      </Link>
+                    </div>
 
-                    <div className=" flex items-center mb-5 "></div>
-                    <div className="block w-full overflow-x-auto rounded-lg">
+                    <div className=" flex items-center mb-5 ">
+
+                    </div>
+                    <div className="block w-full overflow-x-auto rounded-lg" id="tableContainer">
                       <table className="w-full rounded-lg">
                         <thead>
                           <tr className="bg-slate-200 text-md h-12 dark:bg-slate-800">

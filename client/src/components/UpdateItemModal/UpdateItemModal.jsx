@@ -130,10 +130,9 @@ export default function UpdateItemModal({
                         <textarea
                           id="description"
                           rows="8"
-                          value={itemdata.description}
+                          defaultValue={itemdata.description}
                           className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                          placeholder="Your description here"
-                          required
+                          placeholder={itemdata.description}
                           onChange={(e) => {
                             setDescription(e.target.value);
                           }}
@@ -226,7 +225,7 @@ export default function UpdateItemModal({
                       className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="submit"
                     >
-                      Add item
+                      Update item
                     </button>
                   </div>
                 </form>

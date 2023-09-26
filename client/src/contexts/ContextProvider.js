@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState,useEffect } from 'react';
 
 const StateContext = createContext();
 
@@ -21,6 +21,15 @@ export const ContextProvider = ({ children }) => {
     setCurrentMode(e.target.value);
     localStorage.setItem('themeMode', e.target.value);
   };
+
+  useEffect(() => {
+    const currentThemeColor = localStorage.getItem("colorMode");
+    const currentThemeMode = localStorage.getItem("themeMode");
+    if (currentThemeColor && currentThemeMode) {
+      setCurrentColor(currentThemeColor);
+      setCurrentMode(currentThemeMode);
+    }
+  }, []);
 
   const setColor = (color) => {
     setCurrentColor(color);

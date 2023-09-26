@@ -5,7 +5,7 @@ export default function AdvetisementCarousel() {
   const data = [
     {
       image:
-        "https://firebasestorage.googleapis.com/v0/b/vedra-8d493.appspot.com/o/_Path_.png?alt=media&token=507aa264-a90d-4adf-9459-cdf8b0973e56",
+        "https://firebasestorage.googleapis.com/v0/b/vedra-8d493.appspot.com/o/homepage%2FBanner3.png?alt=media&token=4a5b1c1f-9046-4f0d-b826-a83b012d7ccf",
       caption: "Image 1",
     },
   ];
@@ -20,12 +20,12 @@ export default function AdvetisementCarousel() {
         <div className="relative h overflow-hidden rounded-lg md:h-96">
           <div className=" duration-700 ease-in-out" data-carousel-item>
             <img
-              src="https://firebasestorage.googleapis.com/v0/b/vedra-8d493.appspot.com/o/_Path_.png?alt=media&token=507aa264-a90d-4adf-9459-cdf8b0973e56"
-              className=" block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+              src="https://firebasestorage.googleapis.com/v0/b/vedra-8d493.appspot.com/o/homepage%2FBanner3.png?alt=media&token=4a5b1c1f-9046-4f0d-b826-a83b012d7ccf"
+              className=" block w-full -translate-y-1/2 top-1/2 left-1/2"
               alt="..."
             />
           </div>
-          <div className=" duration-700 ease-in-out" data-carousel-item>
+          {/* <div className=" duration-700 ease-in-out" data-carousel-item>
             <img
               src="https://firebasestorage.googleapis.com/v0/b/vedra-8d493.appspot.com/o/_Path_.png?alt=media&token=507aa264-a90d-4adf-9459-cdf8b0973e56"
               className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
@@ -45,14 +45,14 @@ export default function AdvetisementCarousel() {
               className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
               alt="..."
             />
-          </div>
-          <div className=" duration-700 ease-in-out" data-carousel-item>
+          </div> */}
+          {/* <div className=" duration-700 ease-in-out" data-carousel-item>
             <img
               src="https://firebasestorage.googleapis.com/v0/b/vedra-8d493.appspot.com/o/_Path_.png?alt=media&token=507aa264-a90d-4adf-9459-cdf8b0973e56"
               className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
               alt="..."
             />
-          </div>
+          </div> */}
         </div>
         <div className="absolute z-30 flex space-x-3 -translate-x-1/2 bottom-5 left-1/2">
           <button

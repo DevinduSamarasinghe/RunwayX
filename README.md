@@ -1,8 +1,8 @@
-# Vedra
+# RunwayX
 
-#Project Module - Distributed Systems 
+#Project Module - Software Project Management
 
-#Brief Description of Project - An ecommerce website for Ayurvedic Herbal Products and Medicine  
+#Brief Description of Project - An E-commerce application made to finetune the customer preference.
 
 #Technologies used - MERN , Docker
 
