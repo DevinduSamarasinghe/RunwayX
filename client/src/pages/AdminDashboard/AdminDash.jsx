@@ -25,7 +25,6 @@ const AdminDash = () => {
   const [refunded, setRefunded] = useState(0);
   const [orders, setOrders] = useState([]);
   const [Totals, setTotals] = useState(0);
-  let total = 0;
 
   //getOrder Axios
   const getOrders = async () => {
@@ -47,7 +46,7 @@ const AdminDash = () => {
       const decodedToken = jwtDecode(token);
       if (decodedToken.role === "buyer") {
         navigate("/");
-      }
+      } 
     } else {
       navigate("/");
     }
@@ -58,7 +57,7 @@ const AdminDash = () => {
   }, []);
 
   useEffect(() => {
-    calcTotal(total, orders, setTotals);
+    calcTotal(orders, setTotals);
     getOrderCount(setDispatched, setConfirmed, setPending, setRefunded, orders);
   }, [getOrders]);
 
