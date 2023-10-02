@@ -28,6 +28,7 @@ export const registerUser = async (req, res) => {
       firstName: user.firstName,
       lastName: user.lastName,
     };
+
     jwt.sign(
       payload,
       process.env.JWTSECRET,
@@ -120,19 +121,3 @@ export const deleteUser = async (req, res) => {
     res.status(404).json({ message: error });
   }
 };
-
-// //creating the authentication header for the user
-
-// export const jwtauth = async(req,res,next)=>{
-//     const token = req.header('x-auth-token');
-
-//     if(!token) return res.status(401).send("Access denied.(Token not found)");
-//     try{
-//         const decoded = jwt.verify(token,process.end.JWTSECRET);
-//         req.user = decoded;
-//         console.log(req.user);
-//         next();
-//     }catch(error){
-//         res.status(400).send("Invalid token");
-//     }
-// }
