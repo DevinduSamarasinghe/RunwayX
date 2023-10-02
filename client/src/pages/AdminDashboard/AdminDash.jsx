@@ -34,7 +34,7 @@ const AdminDash = () => {
       const decodedToken = jwtDecode(token);
       if (decodedToken.role === "buyer") {
         navigate("/");
-      }
+      } 
     } else {
       navigate("/");
     }
@@ -52,7 +52,7 @@ const AdminDash = () => {
       }
     }
     fetchOrders();
-  }, [getOrders]);
+  }, []);
 
 
   return (
