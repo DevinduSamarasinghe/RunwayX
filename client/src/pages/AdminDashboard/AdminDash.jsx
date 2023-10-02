@@ -52,7 +52,7 @@ const AdminDash = () => {
       }
     }
     fetchOrders();
-  }, []);
+  }, [getOrders]);
 
 
   return (
