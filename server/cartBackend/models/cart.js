@@ -37,6 +37,10 @@ const orderSchema = new Schema({
         type: String,
         required: true,
       },
+      invoiceDate: {
+        type: Date,
+        required: false,
+      },
     },
   ],
   total: {

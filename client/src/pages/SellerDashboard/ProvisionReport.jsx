@@ -144,7 +144,7 @@ const ProvisionReport = () => {
                 {/* PART AFTER THE RETURN STATEMENT */}
                 <div>
                   <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl dark:bg-secondary-dark-bg dark:text-white">
-                    <Header title="Payment Report" />
+                    <Header title="Payment Provison Report" />
                     <div className="mr-0 ml-auto">
                       <button
                         onClick={createPDF}
@@ -182,6 +182,7 @@ const ProvisionReport = () => {
                                 <TableHeader value="Client" />
                                 <TableHeader value="Gross Total" />
                                 <TableHeader value="Commission" />
+                                <TableHeader value="Invoice date" />
                                 <TableHeader value="Status" />
                               </tr>
                             </thead>
@@ -219,6 +220,15 @@ const ProvisionReport = () => {
                                           data.total * 0.15
                                         )}
                                       />
+                                      <td className="text-center px-3 align-middle border-l-0 border-r-0 text-m whitespace-nowrap p-3">
+                                        {data.invoiceDate
+                                          ? new Date(
+                                              data.invoiceDate
+                                            ).toLocaleDateString()
+                                          : new Date().toLocaleDateString()}{" "}
+                                        {/* Use today's date if invoiceDate is null */}
+                                      </td>
+
                                       <td
                                         className={`${dataColor} text-center px-3 align-middle border-l-0 border-r-0 text-m whitespace-nowrap p-3`}
                                       >
