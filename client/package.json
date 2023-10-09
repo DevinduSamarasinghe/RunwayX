@@ -3,8 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@headlessui/react": "^1.7.14",
     "@iconscout/react-unicons": "^1.1.6",
+    "@mui/icons-material": "^5.14.11",
+    "@mui/material": "^5.14.11",
     "@syncfusion/ej2": "^19.4.48",
     "@syncfusion/ej2-base": "^20.2.48",
     "@syncfusion/ej2-data": "^20.2.45",

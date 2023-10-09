@@ -4,19 +4,20 @@ import { useStateContext } from "../../contexts/ContextProvider";
 import {Navbar,ThemeSettings,Footer} from "../../components/Tailwind/components";
 import AdminSidebar from "../../components/Admin/AdminSideBar/AdminSidebar";
 import AdminPieChart from "../../components/Admin/AdminPieChart/AdminPieChart";
-import useAxiosInstance from "../../hooks/useAxios";
 import ThemeButton from "../../components/Common/ThemeSettings";
 import AdminDashButtons from "../../components/Admin/AdminDashButtons/AdminDashButtons";
 import jwtDecode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { getOrderCount,calcTotal } from "../../utils/Admin/AdminFunctions";
 import { formatter } from "../../utils/common/formatter";
+import useOrders from "../../hooks/orders/useOrders";
 
 const AdminDash = () => {
 
+  //Custom Hooks
   const navigate = useNavigate();
   const {currentMode,activeMenu,themeSettings} = useStateContext();
-  const instance = useAxiosInstance();
+  const {getOrders} = useOrders();
 
   //Order count states
   const [dispatched, setDispatched] = useState(0);
@@ -25,19 +26,6 @@ const AdminDash = () => {
   const [refunded, setRefunded] = useState(0);
   const [orders, setOrders] = useState([]);
   const [Totals, setTotals] = useState(0);
-
-  //getOrder Axios
-  const getOrders = async () => {
-    await instance
-      .get(`orders/`)
-      .then((res) => {
-        console.log(res.data);
-        setOrders(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
 
   //USE-EFFECTS
   useEffect(() => {
@@ -53,13 +41,19 @@ const AdminDash = () => {
   }, []);
 
   useEffect(() => {
-    getOrders();
-  }, []);
-
-  useEffect(() => {
-    calcTotal(orders, setTotals);
-    getOrderCount(setDispatched, setConfirmed, setPending, setRefunded, orders);
+    const fetchOrders = async()=>{
+      try{
+        const data = await getOrders();
+        setOrders(data);
+        calcTotal( orders, setTotals);
+        getOrderCount(setDispatched, setConfirmed, setPending, setRefunded, orders);
+      }catch(error){
+        console.error(error);
+      }
+    }
+    fetchOrders();
   }, [getOrders]);
+
 
   return (
     <div>

@@ -25,7 +25,7 @@ export const getOrderCount = (setDispatched, setConfirmed, setPending, setRefund
     });
   };
 
-  export const calcTotal = (orders,setTotals) => {
+export const calcTotal = (orders,setTotals) => {
     let total = 0;
     orders.map((order) => {
       if (
@@ -42,3 +42,22 @@ export const getOrderCount = (setDispatched, setConfirmed, setPending, setRefund
       }
     });
   };
+
+  /**
+   * 
+   * @param {[orders]} orders -> Take all orders fetched from getOrders 
+   * @returns value;
+   */
+  export const getTotal = async (orders,setTotal) => {
+    let value = 0;
+    for (let i = 0; i < orders.length; i++) {
+      if(orders[i].status === "Dispatched" || orders[i].status === "Confirmed" || orders[i].status === "Pending" || orders[i].status === "Refunded"){
+        if(orders[i].status === "Refunded"){
+          value -= orders[i].total * 2
+        }
+        value = value + orders[i].total;
+      }
+    }
+    setTotal(value);
+  }
+
