@@ -64,7 +64,8 @@ const SellerSidebar = () => {
               className={({ isActive }) => (isActive ? activeLink : normalLink)}
             >
               <AiOutlineHome /> {/*  icon  */}
-              <span className="capitalize ">Overview</span> {/*  link name  */}
+              <span className="capitalize ">Sales Overview</span>{" "}
+              {/*  link name  */}
             </NavLink>
 
             <NavLink
@@ -95,6 +96,19 @@ const SellerSidebar = () => {
             {/*  links ---------------------------------------------------------------------------------- links  */}
 
             <NavLink
+              to="/orderStats"
+              onClick={handleCloseSideBar}
+              style={({ isActive }) => ({
+                backgroundColor: isActive ? currentColor : "",
+              })}
+              className={({ isActive }) => (isActive ? activeLink : normalLink)}
+            >
+              <TbBrandGoogleAnalytics /> {/*  icon  */}
+              <span className="capitalize ">Order Statistics</span>{" "}
+              {/*  link name  */}
+            </NavLink>
+
+            <NavLink
               to="/sellerPay"
               onClick={handleCloseSideBar}
               style={({ isActive }) => ({
@@ -103,7 +117,8 @@ const SellerSidebar = () => {
               className={({ isActive }) => (isActive ? activeLink : normalLink)}
             >
               <TbReportAnalytics /> {/*  icon  */}
-              <span className="capitalize ">Reports</span> {/*  link name  */}
+              <span className="capitalize ">Payment Invoices</span>{" "}
+              {/*  link name  */}
             </NavLink>
 
             {/*  menu ---------------------------------------------------------------------------------- menu  */}
