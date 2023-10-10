@@ -1,10 +1,8 @@
 import mongoose from "mongoose";
-import User from "./user";
-
 const Schema = mongoose.Schema;
 
 const userInfoSchema = new Schema({
-    userId: {
+    user: {
         ref: "User",
         type: mongoose.Schema.Types.ObjectId
     },
@@ -16,12 +14,22 @@ const userInfoSchema = new Schema({
     },
     address: {
         type: String,
-        
     },
     profession: {
         type: String
-    }
+    },
+    phone: {
+        type: String
+    },
+    avatar: {
+        type: String
+    },
+    bio: {
+        type: String
+    },
+},{
+    timestamps: true
 })
 
 const UserInfo = mongoose.model("UserInfo",userInfoSchema);
-export default User;
+export default UserInfo;
