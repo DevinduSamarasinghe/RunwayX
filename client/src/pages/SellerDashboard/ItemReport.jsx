@@ -188,10 +188,11 @@ const ItemReport = () => {
 
   const createPDF = () => {
     const date = new Date(Date.now()).toISOString().split("T")[0];
-    const pdf = new jsPDF("landscape", "px", "a2", false);
+    const pdf = new jsPDF("landscape", "px", "a1", false);
     const data = document.querySelector("#tableContainer");
+
     pdf.html(data).then(() => {
-      pdf.save("Orders-" + date + ".pdf");
+      pdf.save("ItemReport-" + date + ".pdf");
     });
   };
 
@@ -259,7 +260,7 @@ const ItemReport = () => {
                       <h1 className="float-left mb-6 text-3xl font-medium leading-tight text-primary">
                         Item Management
                       </h1>
-
+                    <div className="flex justify-end">
                       <button
                         className="font-bold py-1 px-4 rounded-md mx-3 my-1 text-white  hover:bg-slate-700 bg-slate-500 "
                         onClick={() => {
@@ -268,7 +269,7 @@ const ItemReport = () => {
                       >
                         Download Report
                       </button>
-
+                    </div>
                       {/* Add item modal */}
                       <AddItemModal
                         showModal={showModal}
