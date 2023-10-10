@@ -36,9 +36,11 @@ export const getOrderbyUserEmail = async (req, res) => {
 export const createOrder = async (req, res) => {
   const order = req.body;
   const newOrder = new Order(order);
+  const currentDate = new Date();
   try {
     await newOrder.save();
     res.status(201).json(newOrder);
+    newOrder.invoiceDate = currentDate;
   } catch (error) {
     res.status(409).json({ message: error.message });
   }

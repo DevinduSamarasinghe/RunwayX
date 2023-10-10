@@ -15,6 +15,7 @@ import PendingOrders from "./pages/AdminDashboard/PendingOrders";
 import ConfirmedOrders from "./pages/AdminDashboard/ConfirmedOrders";
 import DispatchedOrders from "./pages/AdminDashboard/DispatchedOrders";
 import SellerDash from "./pages/SellerDashboard/SellerDash";
+import OrderStatistics from "./pages/SellerDashboard/OrderStats";
 import ItemManagement from "./pages/SellerDashboard/ItemManagement";
 import AddItemForm from "./pages/SellerDashboard/AddItemForm";
 import UpdateItemForm from "./pages/SellerDashboard/UpdateItemForm";
@@ -78,7 +79,8 @@ function App() {
         <Route path="/additem" element={<AddItemForm />} />
         <Route path="/updateitem" element={<UpdateItemForm />} />
         <Route path="/ProvisionReport" element={<ProvisionReport />} />
-        <Route path='/itemreport' element={<ItemReport />} />
+        <Route path="/itemreport" element={<ItemReport />} />
+        <Route path="/orderStats" element={<OrderStatistics />} />
 
         {/* You bullshit Shaggy: Add your routes here
          
