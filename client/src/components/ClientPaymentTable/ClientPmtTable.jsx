@@ -7,7 +7,7 @@ const ClientPayTab = ({ payment }) => {
   let count = 0;
   return (
     <div className="">
-      <div class="bg-white dark:bg-gray-700 shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+      <div class="bg-white dark:bg-gray-700 shadow rounded-lg p-4 sm:p-6 xl:p-8 h-255 w-570 ">
         <div class="mb-4 flex items-center justify-between">
           <div>
             <h3 class="text-xl font-bold text-gray-900 mb-2 dark:text-gray-200">

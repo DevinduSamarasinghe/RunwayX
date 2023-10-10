@@ -3,11 +3,14 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import jwtdecode from "jwt-decode";
 import { Link } from "react-router-dom";
+import useUserInfo from "../../hooks/userinfo/useUserInfo";
 
 export default function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  const {getUserInfoByUserId} = useUserInfo();
 
   // handle submit
   const submitHandler = async (e) => {
@@ -22,15 +25,21 @@ export default function Signin() {
       const response = await axios.post("http://localhost:8070/users/login", user); //get token
       const { token } = response.data;
       localStorage.setItem("token", token);
-      // alert("Login Successfull");
       const decoded = jwtdecode(token);
       if (decoded.role === "seller") {
         localStorage.setItem("sellerId", decoded._id);
         localStorage.setItem("email", decoded.email);
         navigate("/seller");
       } else if (decoded.role === "buyer") {
-        localStorage.setItem("email", decoded.email);
-        navigate("/");
+          localStorage.setItem("email", decoded.email);
+          localStorage.setItem('userId',decoded._id);
+          console.log("Decoded Code: ",decoded._id);
+          const data = await getUserInfoByUserId(decoded._id);
+          if(!data){
+            navigate(`/clientinfo`);
+          }else{
+            navigate("/");
+          }
       } else {
         navigate("/admin");
       }

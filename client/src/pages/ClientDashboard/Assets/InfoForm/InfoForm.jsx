@@ -1,13 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Select, TextInput, Textarea } from 'flowbite-react'
 import { useStateContext } from '../../../../contexts/ContextProvider'
 import { Tabs, Tab } from '@mui/material'
-
+import useUserInfo from '../../../../hooks/userinfo/useUserInfo'
+import { useNavigate } from 'react-router-dom'
 
 const InfoForm = () => {
-  const { currentMode, themeSettings, currentColor } = useStateContext()
+
+  const { currentMode, currentColor } = useStateContext()
   const [activeSteps, setActiveSteps] = useState(0)
 
+  const {createUserInfo} = useUserInfo();
+  const navigate = useNavigate();
+  
   const handleNext = () => {
     setActiveSteps(prevActiveSteps => prevActiveSteps + 1)
   }
@@ -28,22 +33,37 @@ const InfoForm = () => {
   const [street, setStreet] = useState('');
   const [city, setCity] = useState('');
   const [postal, setPostal] = useState('');
+
+  useEffect(()=>{
+    setUser(localStorage.getItem('userId'));
+  },[])
   
-  
-  
-  
+  console.log(user);
 
   const handleSubmit = async()=>{ 
-    setAddress(`${postal} ${street} ${city}`);
-    
-      
-  }
+    await setAddress(`${postal} ${street} ${city}`);
 
+    try{
+      const response = await createUserInfo({
+        userid: user,
+        age,
+        gender, 
+        address,
+        profession,
+        phone,
+        bio
+      });
+      navigate('/client');
+      console.log(response);
+    }catch(error){
+      console.error(error);
+    }
+  }
 
   return (
     <div>
-      <Tabs value={activeSteps} sx={{ justifyContent: 'center' }}>
-        <Tab label='Step 1' disabled sx={{ width: '33%' }} />
+      <Tabs textColor={currentMode !== 'Light' ? 'gray-200' : 'white'} value={activeSteps} sx={{ justifyContent: 'center', }}>
+        <Tab  label='Step 1' disabled sx={{ width: '33%' }} />
         <Tab label='Step 2' disabled sx={{ width: '33%' }} />
         <Tab label='Step 3' disabled sx={{ width: '33%' }} />
       </Tabs>
