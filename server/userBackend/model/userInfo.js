@@ -17,7 +17,18 @@ const userInfoSchema = new Schema({
     },
     profession: {
         type: String
-    }
+    },
+    phone: {
+        type: String
+    },
+    avatar: {
+        type: String
+    },
+    bio: {
+        type: String
+    },
+},{
+    timestamps: true
 })
 
 const UserInfo = mongoose.model("UserInfo",userInfoSchema);
