@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useStateContext } from "../../contexts/ContextProvider";
 import {Navbar,Footer,ThemeSettings} from "../../components/Tailwind/components";
 import ClientSidebar from "../../components/Tailwind/components/ClientSidebar";
@@ -29,7 +28,7 @@ const ClientDash = () => {
   const [order, setOrder] = useState([]);
   const [payment, setPayment] = useState([]);
 
-  //useEffects
+  //useEffects 
   useEffect(() => {
     if (token) {
       const decodedToken = jwtDecode(token);
