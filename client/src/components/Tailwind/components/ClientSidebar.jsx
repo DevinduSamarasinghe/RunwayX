@@ -6,17 +6,12 @@ import {FiUser,FiShoppingBag,
 } from 'react-icons/fi';
 
 import {SiMarketo} from "react-icons/si";
-import { HiUserGroup } from 'react-icons/hi';
 import {TbReportMoney,TbBuildingFactory2, TbFileInvoice} from 'react-icons/tb';
-import {BiDiamond} from 'react-icons/bi';
-import { FaRegMoneyBillAlt } from 'react-icons/fa';
-
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
-
 import { useStateContext } from '../../../../src/contexts/ContextProvider';
 
 const ClientSidebar = () => {
-  const { currentColor, activeMenu, setActiveMenu, screenSize } =
+  const { currentColor, activeMenu, setActiveMenu, screenSize, currentMode } =
     useStateContext();
 
   const handleCloseSideBar = () => {
@@ -43,7 +38,7 @@ const ClientSidebar = () => {
               <img
                 className="logo"
                 style={{ marginLeft: "40px" }}
-                src="https://firebasestorage.googleapis.com/v0/b/vedra-8d493.appspot.com/o/homepage%2Flogo-white-removebg-preview.png?alt=media&token=07c66137-9a8a-473d-b6af-20b46dff3e9c"
+                src={currentMode === 'Light' ? 'https://firebasestorage.googleapis.com/v0/b/vedra-8d493.appspot.com/o/homepage%2Frunwayx-logo-removebg-preview.png?alt=media&token=edd5bd75-1c8a-44de-97a5-088aaeef82f1' : 'https://firebasestorage.googleapis.com/v0/b/vedra-8d493.appspot.com/o/homepage%2Flogo-white-removebg-preview.png?alt=media&token=07c66137-9a8a-473d-b6af-20b46dff3e9c'}
                 alt=""
               />
             </Link>

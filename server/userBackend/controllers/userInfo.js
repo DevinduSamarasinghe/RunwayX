@@ -16,7 +16,7 @@ const userInfoController = ()=>{
 
             //check if the user matches the userInfo database
             let isMatch = await UserInfo.findOne({user: userid}).populate("user").select("+password");
-            if(isMatch) return res.status(400).send({error: "User's info already created", data: isMatch});
+            if(isMatch) return res.status(200).send({error: "User's info already created", data: isMatch});
             
             //creating a new userinfo
             let newUserInfo = new UserInfo({user: userid, age, gender, address, profession});
@@ -36,7 +36,7 @@ const userInfoController = ()=>{
             console.log(userid);
             const userInfo = await UserInfo.findOne({user: userid}).populate("user").select("-password");
 
-            if(!userInfo) return res.status(404).json({error: "User's info not found"});
+           // if(!userInfo) return res.status(200).json(null);
 
             console.log(userInfo);
             return res.status(200).json(userInfo);
