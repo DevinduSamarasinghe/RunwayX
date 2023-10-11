@@ -57,8 +57,6 @@ const ClientDash = () => {
     fetchOrdersAndPayments();
   }, []);
 
-  console.log("User Info: ",user);
-
   return (
     <div>
       <div className={currentMode === "Dark" ? "dark" : ""}>

@@ -32,6 +32,7 @@ import ProvisionReport from "./pages/SellerDashboard/ProvisionReport";
 import ItemReport from "./pages/SellerDashboard/ItemReport";
 import OrderReport from "./pages/ClientDashboard/OrderReport";
 import ClientInformation from "./pages/ClientDashboard/ClientInformation";
+import UpdateClient from "./pages/ClientDashboard/UpdateClient";
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
         <Route path="/mypayments" element={<ClientPayments />} />
         <Route path="/orderReport" element={<OrderReport />} />
         <Route path="/clientinfo" element={<ClientInformation />} />
+        <Route path="/update-client" element={<UpdateClient/>}/> 
         {/* Test method to fetch item information */}
         <Route
           path="/checkout/:6438fa2c518a57cbd5bdc8f4"

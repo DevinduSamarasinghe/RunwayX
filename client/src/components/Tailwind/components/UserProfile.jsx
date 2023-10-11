@@ -11,6 +11,10 @@ const UserProfile = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('email');
+    localStorage.removeItem('themeMode');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('colorMode');
     navigate('/');
   };
 
