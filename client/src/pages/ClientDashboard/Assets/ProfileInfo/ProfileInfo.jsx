@@ -51,7 +51,7 @@ const ClientProfile = ({user}) => {
               </div>{" "}
             </div>{" "}
             <div className="space-x-8 flex justify-between mt-32 md:mt-0 md:justify-center">
-            <Link to="/updateClient">
+            <Link to="/update-client">
             
               <button className="text-white py-2 px-4 uppercase rounded text-sm hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
               style={{background: currentColor}}>
@@ -60,7 +60,7 @@ const ClientProfile = ({user}) => {
               </button>{" "}
               </Link>
 
-              <Link to="/client/support">
+              <Link to="#">
               <button className="text-white py-2 px-4 uppercase rounded text-sm bg-green-400 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
                 {" "}
                 Contact Support
