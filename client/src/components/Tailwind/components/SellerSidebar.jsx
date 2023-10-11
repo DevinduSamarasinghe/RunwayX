@@ -34,7 +34,7 @@ const SellerSidebar = () => {
             <Link to="/" onClick={handleCloseSideBar} className="">
               <img
                 className="logo m-[40px]"
-                src="https://firebasestorage.googleapis.com/v0/b/vedra-8d493.appspot.com/o/homepage%2Flogo-white-removebg-preview.png?alt=media&token=07c66137-9a8a-473d-b6af-20b46dff3e9c"
+                src="https://firebasestorage.googleapis.com/v0/b/vedra-8d493.appspot.com/o/homepage%2Frunwayx-logo-removebg-preview.png?alt=media&token=edd5bd75-1c8a-44de-97a5-088aaeef82f1&_gl=1*1bbw46n*_ga*NDU3NjA3NDExLjE2OTY5MzE0MjU.*_ga_CW55HF8NVT*MTY5NjkzMTQyNi4xLjEuMTY5NjkzMTg3NS41OC4wLjA."
                 alt=""
               />
             </Link>
@@ -46,7 +46,7 @@ const SellerSidebar = () => {
                 style={{ color: currentColor }}
                 className="text-xl rounded-full p-3 hover:bg-light-gray mt-4 block md:hidden"
               >
-                <MdOutlineCancel />
+                <MdOutlineCancel /> 
               </button>
             </TooltipComponent>
           </div>

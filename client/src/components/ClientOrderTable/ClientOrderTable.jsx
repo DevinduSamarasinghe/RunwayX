@@ -6,7 +6,7 @@ const ClientOrderTable = ({ order }) => {
   console.log("Order from order Table", order);
   return (
     <div>
-      <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 dark:bg-gray-700">
+      <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 dark:bg-gray-700 h-255 w-570">
         <div class="mb-4 flex items-center justify-between">
           <div>
             <h3 class="text-xl font-bold text-gray-900 mb-2 dark:text-gray-200">
@@ -59,7 +59,11 @@ const ClientOrderTable = ({ order }) => {
                     </tr>
                   </thead>
                   <tbody class="bg-white dark:bg-gray-700">
-                    {order.map((order) => {
+                    {order.filter(()=>{
+                      if(order.status === "cart"){ 
+                        return null;
+                      }
+                    }).map((order) => {
                       count++;
                       if (count < 5) {
                         return (

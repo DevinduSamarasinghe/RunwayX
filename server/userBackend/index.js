@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import mongoose from "mongoose";
 import userRouter from "./routes/user.js";
+import infoRouter from "./routes/userinfo.route.js";
 
 const app = express();
 const PORT = process.env.PORT || 8084;
@@ -13,6 +14,7 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
 app.use("/users", userRouter);
+app.use('/info', infoRouter);
 
 const URL = process.env.MONGODB_URL;
 
