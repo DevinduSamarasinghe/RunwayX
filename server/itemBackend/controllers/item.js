@@ -158,14 +158,12 @@ export const getRecommendedItems = async (req, res) => {
     }));
 
     const csv = json2csv.parse(transformedData);
-    const tempCsvFilePath =
-      "C:/Users/Sahan/eclipse-workspace/RunwayX/server/itemBackend/ML/temp.csv";
+    const tempCsvFilePath = "ML/temp.csv";
 
     fs.writeFileSync(tempCsvFilePath, csv);
 
     let options = {
-      scriptPath:
-        "C:/Users/Sahan/eclipse-workspace/RunwayX/server/itemBackend/ML",
+      scriptPath: "ML",
       args: [tempCsvFilePath, id],
     };
 
