@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useStateContext } from "../../contexts/ContextProvider.js";
 import TableData from "../../components/Tailwind/components/Table/TableData.jsx";
 import TableHeader from "../../components/Tailwind/components/Table/TableHeader.jsx";
@@ -29,7 +29,8 @@ const ConfirmedOrders = () => {
   } = useStateContext();
 
   const [orders, setOrders] = useState([]);
-
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
   //get orders
   const getOrders = async () => {
     await axios
@@ -62,8 +63,10 @@ const ConfirmedOrders = () => {
       let status = null;
       if (stat === "Reject") {
         status = "Refunded";
+        navigate("/refunded");
       } else if (stat === "Approve") {
         status = "Dispatched";
+        navigate("/dispatched");
       }
       await axios
         .patch(`http://localhost:8083/orders/updateStatus`, { id, status }) //update status
@@ -143,8 +146,18 @@ const ConfirmedOrders = () => {
                 <div>
                   <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl dark:bg-secondary-dark-bg dark:text-white">
                     <Header title="Confirmed Orders " />
-
+                    <div>
+                      <input
+                        type="text"
+                        className=" block w-350 rounded-md bg-gray-100 focus:bg-white dark:text-black"
+                        placeholder="Search Order"
+                        onChange={(e) => {
+                          setSearchTerm(e.target.value);
+                        }}
+                      />
+                    </div>
                     <div className=" flex items-center mb-5 "></div>
+
                     <div className="block w-full overflow-x-auto rounded-lg">
                       <table className="w-full rounded-lg">
                         <thead>

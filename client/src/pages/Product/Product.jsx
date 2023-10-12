@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import Footer from "../../components/Footer/Footer";
 import Navbar from "../../components/Navbar/Navbar";
 import axios from "axios";
+import { ToastContainer, toast, Zoom, Bounce } from "react-toastify";
 import "./Product.css";
 import { useEffect, useState } from "react";
 import StarRatings from "react-star-ratings";
@@ -80,8 +81,10 @@ export default function Product() {
       } else {
         console.log(Neworder);
         await axios
-          .post(`http://localhost:8070/orders`, Neworder)
-          .then((res) => {})
+          .post(`http://localhost:8070/orders`, Neworder) //create new cart
+          .then((res) => {
+            toast.success("Order Payment Approved!");
+          })
           .catch((err) => {
             console.log(err);
           });
@@ -129,6 +132,7 @@ export default function Product() {
       <div className="">
         <div className="h-[70px] items-center justify-center flex bg-[#f1f1f1]">
           <div className="container mx-auto">
+            <ToastContainer />
             <p className="flex focus:outline-none focus:ring-2 focus:ring-offset-2 gap-8 focus:ring-gray-800 font-normal text-base leading-4 text-gray-600">
               <p>{item.section_name}</p> / <p>{item.category}</p> /{" "}
               <p>{item.product_type_name}</p>
@@ -260,14 +264,14 @@ export default function Product() {
                     className="bg-[#278a9e] text-white focus:outline-none font-medium rounded-lg text-sm px-5 py-3 text-center w-full mt-9"
                     disabled
                   >
-                    Added
+                    Item Added
                   </button>
                 ) : (
                   <button
                     className="bg-[#3ea7ac] hover:bg-[#278a9e] text-white focus:outline-none font-medium rounded-lg text-sm px-5 py-3 text-center w-full mt-9"
                     onClick={AddtoCart}
                   >
-                    Add to Shopping Cart
+                    Add To Shopping Cart
                   </button>
                 )
               ) : (
