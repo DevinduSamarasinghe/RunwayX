@@ -8,8 +8,6 @@ const useUserInfo = ()=>{
         .catch((error)=>{
             console.error(error);
         })
-
-        console.log("axios userinfo", response.data);
         return response.data;
     }
     
@@ -25,8 +23,8 @@ const useUserInfo = ()=>{
         return response.data;
     }
 
-    const updateUserInfo = async(userid)=>{
-        const response = await instance.patch(`info/${userid}`)
+    const updateUserInfo = async(userid,user)=>{
+        const response = await instance.patch(`info/updateAll/${userid}`,user)
         .catch((error)=>{
             console.error(error);
         })

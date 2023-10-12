@@ -5,7 +5,7 @@ import UserInfo from "../model/userInfo.js";
 const userInfoController = ()=>{
     const createUserInfoService = async(req,res)=>{
         try{
-            const {userid, age, gender, address, profession} = req.body;
+            const {userid, age, gender, address, profession,bio,phone} = req.body;
             
             //check if the userid exists in the body
             if(!userid) return res.status(400).json("UserId is required");
@@ -19,7 +19,7 @@ const userInfoController = ()=>{
             if(isMatch) return res.status(200).send({error: "User's info already created", data: isMatch});
             
             //creating a new userinfo
-            let newUserInfo = new UserInfo({user: userid, age, gender, address, profession});
+            let newUserInfo = new UserInfo({user: userid, age, gender, address, profession,bio,phone});
             await newUserInfo.save();
 
             newUserInfo = await UserInfo.findOne({user: userid}).populate("user").select("+password");
@@ -62,7 +62,22 @@ const userInfoController = ()=>{
         }
     }
 
-    return {createUserInfoService, getUserInfoService, updateUserInfoService}
+    const updateAllUserInfo = async(req,res)=>{
+        try{
+            const {userid} = req.params;
+            const {firstName, lastName, email, age, gender, address, profession,bio,phone} = req.body;
+            
+            //Now from populate we change information of the User as well
+            await User.findOneAndUpdate({_id: userid},{firstName, lastName,email});
+            const updatedUserInfo = await UserInfo.findOneAndUpdate({user: userid},{age,gender,address,profession,bio,phone}).populate('user').select('-password');
+
+            return res.status(201).json(updatedUserInfo);
+        }catch(error){
+            return res.status(500).send(error.message);
+        }
+    }
+
+    return {createUserInfoService, getUserInfoService, updateUserInfoService, updateAllUserInfo}
 }
 
 export default userInfoController;
