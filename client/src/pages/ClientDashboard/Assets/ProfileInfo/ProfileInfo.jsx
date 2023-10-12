@@ -72,7 +72,7 @@ const ClientProfile = ({user}) => {
           <div className="mt-20 text-center border-b pb-12">
             {" "}
             <h1 className="text-4xl font-medium text-gray-700 dark:text-gray-200">
-              {user?.user?.firstName} {user?.user?.lastName} <span className="font-light text-gray-500 dark:text-gray-400">24</span>
+              {user?.user?.firstName} {user?.user?.lastName} <span className="font-light text-gray-500 dark:text-gray-400">{user?.age}</span>
             </h1>{" "}
             <p className="font-light text-gray-600 mt-3 dark:text-gray-400">{user?.address}</p>{" "}
             <p className="mt-8 text-gray-500">{user?.profession}</p>
