@@ -11,23 +11,25 @@ import axios from "axios";
 
 export default function Home() {
   useEffect(() => {
-    const getOrder = async () => {
-      const res = await axios.get(
-        `http://localhost:8070/orders/${localStorage.getItem("email")}/cart` //get order
-      );
-      if (!res.data.isSuccess) {
-        const newOrder = {
-          email: localStorage.getItem("email"),
-          items: [],
-          total: 0,
-          status: "cart",
-          address: "",
-          shippingMethod: "",
-        };
-        await axios.post("http://localhost:8070/orders", newOrder); //create order
-      }
-    };
-    getOrder();
+    if (localStorage.getItem("email") != null) {
+      const getOrder = async () => {
+        const res = await axios.get(
+          `http://localhost:8070/orders/${localStorage.getItem("email")}/cart` //get order
+        );
+        if (!res.data.isSuccess) {
+          const newOrder = {
+            email: localStorage.getItem("email"),
+            items: [],
+            total: 0,
+            status: "cart",
+            address: "",
+            shippingMethod: "",
+          };
+          await axios.post("http://localhost:8070/orders", newOrder); //create order
+        }
+      };
+      getOrder();
+    }
   }, []);
 
   return (
