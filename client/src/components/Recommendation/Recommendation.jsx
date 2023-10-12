@@ -32,6 +32,7 @@ function Recommendation({ article_id }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     async function fetchData() {
       if (article_id !== "" && article_id !== undefined) {
         try {
