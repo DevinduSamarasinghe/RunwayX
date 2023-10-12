@@ -12,16 +12,16 @@ export default function AdvetisementCarousel() {
 
   return (
     <div className="advetisementCarousel">
-      <div
+      {/*<div
         id="default-carousel"
         className="relative w-full"
         data-carousel="slide"
       >
-        <div className="relative h overflow-hidden rounded-lg md:h-96">
+         <div className="relative h overflow-hidden rounded-lg md:h-150">
           <div className=" duration-700 ease-in-out" data-carousel-item>
             <img
-              src="https://firebasestorage.googleapis.com/v0/b/vedra-8d493.appspot.com/o/homepage%2FBanner3.png?alt=media&token=4a5b1c1f-9046-4f0d-b826-a83b012d7ccf"
-              className=" block w-full -translate-y-1/2 top-1/2 left-1/2"
+              src="https://firebasestorage.googleapis.com/v0/b/runwayx-2471a.appspot.com/o/b1.jpg?alt=media&token=a7faa7fe-5383-4de5-acef-4221ad72b31e&_gl=1*11qx574*_ga*MjA2NDU4MzI2Ny4xNjgxMDU3MTMx*_ga_CW55HF8NVT*MTY5NzEyMjE5MS4yMi4xLjE2OTcxMjIyMDUuNDYuMC4w"
+              className=" block w-full"
               alt="..."
             />
           </div>
@@ -110,8 +110,9 @@ export default function AdvetisementCarousel() {
             </svg>
             <span className="sr-only">Next</span>
           </span>
-        </button>
-      </div>
+        </button> 
+      </div>*/}
+
     </div>
   );
 }

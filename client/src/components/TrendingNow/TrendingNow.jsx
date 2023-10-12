@@ -31,11 +31,11 @@ export default function TrendingNow() {
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
-      items: 6,
+      items: 2,
     },
     desktop: {
       breakpoint: { max: 3000, min: 2000 },
-      items: 6,
+      items: 2,
     },
     minidesktop: {
       breakpoint: { max: 2000, min: 1000 },
@@ -52,12 +52,12 @@ export default function TrendingNow() {
   };
 
   return (
-    <div className="trendingNow">
+    <div className="trendingNow py-10">
       <div>
-        <h3>Trending Now</h3>
-        <button className="bg-[#3ea7ac] hover:bg-[#278a9e] mx-4 text-white focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+        <h3>Garment Upper Body</h3>
+        {/* <button className="bg-[#3ea7ac] hover:bg-[#278a9e] mx-4 text-white focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center">
           View more
-        </button>
+        </button> */}
       </div>
       <div>
         {isLoading ? (

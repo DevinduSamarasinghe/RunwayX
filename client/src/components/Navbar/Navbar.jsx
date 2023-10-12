@@ -160,14 +160,14 @@ export default function Navbar() {
         </div>
       </div>
       <hr />
-      <div className="navBottomCont">
+      {/* <div className="navBottomCont">
         <ul>
           <li>Trending Now</li>
           <li>New Arrivals</li>
           <li>Specials</li>
           <li>Best Sellers</li>
         </ul>
-      </div>
+      </div> */}
     </div>
   );
 }

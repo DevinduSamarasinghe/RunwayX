@@ -1,12 +1,18 @@
 .advetisementCarousel {
-    width: 100vw;
-    /* height: 400px; */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    /* background-color: #757575; */
-    /* padding: 0 3rem; */
+  width: 100vw;
+  height: 550px;
+  background-image: url("https://firebasestorage.googleapis.com/v0/b/runwayx-2471a.appspot.com/o/b1.jpg?alt=media&token=a7faa7fe-5383-4de5-acef-4221ad72b31e&_gl=1*11qx574*_ga*MjA2NDU4MzI2Ny4xNjgxMDU3MTMx*_ga_CW55HF8NVT*MTY5NzEyMjE5MS4yMi4xLjE2OTcxMjIyMDUuNDYuMC4w");
+  background-attachment: fixed;
+  /* background-position: center; */
+  background-repeat: no-repeat;
+  background-size: auto;
+  background-position-y: 50px;
+  /* display: flex; */
+  /* align-items: center; */
+  /* justify-content: center; */
+  /* color: white; */
+  /* background-color: #757575; */
+  /* padding: 0 3rem; */
 }
 
 /* .advetisementCarousel__image {

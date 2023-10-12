@@ -37,8 +37,8 @@ export default function Home() {
       <Navbar />
       <AdvetisementCarousel />
       <TrendingNow />
-      {/* <NewArrivals /> */}
-      {/* <Specials /> */}
+      <NewArrivals />
+      <Specials />
       {/* <BestSellers /> */}
       <Footer />
     </div>
