@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useStateContext } from "../../contexts/ContextProvider.js";
 import TableData from "../../components/Tailwind/components/Table/TableData.jsx";
 import TableHeader from "../../components/Tailwind/components/Table/TableHeader.jsx";
@@ -18,8 +18,6 @@ import axios from "axios";
 import { ToastContainer, toast, Zoom, Bounce } from "react-toastify";
 
 const DispatchedOrders = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-
   const {
     setCurrentColor,
     setCurrentMode,
@@ -31,7 +29,8 @@ const DispatchedOrders = () => {
   } = useStateContext();
 
   const [orders, setOrders] = useState([]);
-
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
   //get orders
   const getOrders = async () => {
     await axios
@@ -144,8 +143,17 @@ const DispatchedOrders = () => {
                 {/* PART AFTER THE RETURN STATEMENT */}
                 <div>
                   <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl dark:bg-secondary-dark-bg dark:text-white">
-                    <Header title="Confirmed Orders " />
-
+                    <Header title="Dispatched Orders " />
+                    <div>
+                      <input
+                        type="text"
+                        className=" block w-350 rounded-md bg-gray-100 focus:bg-white dark:text-black"
+                        placeholder="Search Order"
+                        onChange={(e) => {
+                          setSearchTerm(e.target.value);
+                        }}
+                      />
+                    </div>
                     <div className=" flex items-center mb-5 "></div>
                     <div className="block w-full overflow-x-auto rounded-lg">
                       <table className="w-full rounded-lg">
