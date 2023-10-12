@@ -6,8 +6,13 @@ import {
   updateItem,
   deleteItem,
   getItemsbyCategory,
-  getItemsbySeller,
+  getRecommendedItems,
+  // getItemsbySeller,
+  // addReview,
   addReview,
+  updateReview,
+  deleteReview,
+  getRatingSummary,
 } from "../controllers/item.js";
 
 const router = express.Router();
@@ -19,8 +24,15 @@ router.get("/:id", getItembyId);
 router.patch("/:id", updateItem);
 router.delete("/:id", deleteItem);
 
-router.get("/category/:category", getItemsbyCategory);
-router.get("/seller/:sellerId", getItemsbySeller);
-router.post("/review/:id", addReview);
+router.post("/category", getItemsbyCategory);
+router.get("/recom/:id", getRecommendedItems);
+// router.get("/seller/:sellerId", getItemsbySeller);
+// router.post("/review/:id", addReview);
+
+router.post("/:id/reviews", addReview); // Add a review to an item
+router.patch("/:itemId/reviews/:reviewId", updateReview); // Update a review for an item
+router.delete("/:itemId/reviews/:reviewId", deleteReview); // Delete a review for an item
+
+router.get("/:id/ratingsummary", getRatingSummary);
 
 export default router;

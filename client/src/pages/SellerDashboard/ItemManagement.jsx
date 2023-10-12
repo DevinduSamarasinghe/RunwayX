@@ -39,6 +39,12 @@ const ItemManagement = () => {
   const [category, setCategory] = useState("");
   const [state, setState] = useState(false);
   const [cartDelete, setCartDelete] = useState({});
+  const [page, setPage] = useState(1); // Initial page number
+  const limit = 10; // Items per page
+  const [itemID, setItemID] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortKey, setSortKey] = useState(""); // 'article_id' or 'name'
+  const [sortOrder, setSortOrder] = useState("asc"); // 'asc' or 'desc'
 
   const navigate = useNavigate();
 
@@ -83,7 +89,6 @@ const ItemManagement = () => {
         return null;
       }
     });
-
 
     const urls = await Promise.all(uploadPromises);
     setImages(urls);
@@ -177,12 +182,12 @@ const ItemManagement = () => {
     const fetchItems = async () => {
       const sellerId = localStorage.getItem("sellerId");
       const res = await axios.get(
-        `http://localhost:8070/items/seller/${sellerId}`
+        `http://localhost:8081/items?page=${page}&limit=500`
       );
       setItems(res.data);
     };
     fetchItems();
-  }, [showModal, state]);
+  }, [showModal, showUpdateModal, state, page]);
 
   return (
     <div>
@@ -252,16 +257,15 @@ const ItemManagement = () => {
                         Add new Item
                       </button>
                       <Link to="/itemReport">
-                      <div className="mr-0 ml-auto">
-                      <button
-                        type="button"
-                        className="font-bold py-1 px-4 rounded-md mx-3 my-1 text-white  hover:bg-slate-700 bg-slate-500"
-                      >
-                        Show Report
-                      </button>
-                    </div>
+                        <div className="mr-0 ml-auto">
+                          <button
+                            type="button"
+                            className="font-bold py-1 px-4 rounded-md mx-3 my-1 text-white  hover:bg-slate-700 bg-slate-500"
+                          >
+                            Show Report
+                          </button>
+                        </div>
                       </Link>
-
 
                       {/* Add item modal */}
                       <AddItemModal
@@ -279,82 +283,150 @@ const ItemManagement = () => {
                         filepickerRef={filepickerRef}
                       />
 
+                      <div className="w-full h-[70px] py-3 flex gap-10">
+                        <input
+                          type="text"
+                          className="w-[300px] h-[40px] bg-white px-5 pr-16 rounded-lg text-sm focus:outline-none focus:border-gray-400"
+                          placeholder="Search by name or article ID"
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                      </div>
+
                       {/* table to store item data */}
                       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                           <tr>
                             <th scope="col" className="px-6 py-3">
-                              Item
+                              article_id
                             </th>
                             <th scope="col" className="px-6 py-3">
-                              Name
+                              name
                             </th>
                             <th scope="col" className="px-6 py-3">
-                              Category
+                              category
                             </th>
                             <th scope="col" className="px-6 py-3">
-                              Price
+                              garment_group_name
                             </th>
                             <th scope="col" className="px-6 py-3">
-                              Action
+                              colour_group_name
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                              price
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                              action
                             </th>
                           </tr>
                         </thead>
                         <tbody>
-                          {items.map((item) => (
-                            <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                              <th
-                                scope="row"
-                                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                                <img
-                                  className="h-[80px]"
-                                  src={item.image[0]}
-                                  alt=""
-                                />
-                              </th>
-                              <td className="px-6 py-4">{item.name}</td>
-                              <td className="px-6 py-4">{item.category}</td>
-                              <td className="px-6 py-4">
-                                ${item.price.$numberDecimal}
-                              </td>
-                              <td className="px-6 py-4">
-                                <button
-                                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                                  onClick={() => {
-                                    setShowUpdateModal(true);
-                                  }}
-                                >
-                                  Update
-                                </button>
-                                {/* Update item modal */}
-                                <UpdateItemModal
-                                  id={item._id}
-                                  showModal={showUpdateModal}
-                                  setShowUpdateModal={setShowUpdateModal}
-                                  setName={setName}
-                                  setDescription={setDescription}
-                                  setPrice={setPrice}
-                                  setCategory={setCategory}
-                                  postImage={postImage}
-                                  uploadPostImage={uploadPostImage}
-                                  setImages={setImages}
-                                  filepickerRef={filepickerRef}
-                                  setPostImage={setPostImage}
-                                />
-                                <button
-                                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                                  onClick={() => {
-                                    handleDeleteItem(item._id);
-                                  }}
-                                >
-                                  Delete
-                                </button>
-                              </td>
-                            </tr>
-                          ))}
+                          {items
+                            .filter((item) => {
+                              const articleIdString = String(item.article_id); // Convert to string
+                              // Filter by search term (case-insensitive)
+                              return (
+                                articleIdString
+                                  .toLowerCase()
+                                  .includes(searchTerm.toLowerCase()) ||
+                                item.name
+                                  .toLowerCase()
+                                  .includes(searchTerm.toLowerCase())
+                              );
+                            })
+                            .sort((a, b) => {
+                              // Sort by the selected key and order
+                              const aValue =
+                                sortKey === "article_id"
+                                  ? a.article_id
+                                  : a.name;
+                              const bValue =
+                                sortKey === "article_id"
+                                  ? b.article_id
+                                  : b.name;
+                              if (sortOrder === "asc") {
+                                return aValue.localeCompare(bValue);
+                              } else {
+                                return bValue.localeCompare(aValue);
+                              }
+                            })
+                            .map((item) => (
+                              <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                                <td className="px-6 py-4">{item.article_id}</td>
+                                <td className="px-6 py-4">{item.name}</td>
+                                <td className="px-6 py-4">{item.category}</td>
+                                <td className="px-6 py-4">
+                                  {item.garment_group_name}
+                                </td>
+                                <td className="px-6 py-4">
+                                  {item.colour_group_name}
+                                </td>
+                                <td className="px-6 py-4">
+                                  ${item.price.toFixed(2)}
+                                </td>
+                                <td className="px-6 py-4">
+                                  <button
+                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                                    onClick={() => {
+                                      setItemID(item._id);
+                                      setShowUpdateModal(true);
+                                    }}
+                                  >
+                                    Update
+                                  </button>
+                                  {/* Update item modal */}
+
+                                  <button
+                                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                                    onClick={() => {
+                                      handleDeleteItem(item._id);
+                                    }}
+                                  >
+                                    Delete
+                                  </button>
+                                </td>
+                              </tr>
+                            ))}
+                          <UpdateItemModal
+                            id={itemID}
+                            showModal={showUpdateModal}
+                            setShowUpdateModal={setShowUpdateModal}
+                            setName={setName}
+                            setDescription={setDescription}
+                            setPrice={setPrice}
+                            setCategory={setCategory}
+                            postImage={postImage}
+                            uploadPostImage={uploadPostImage}
+                            setImages={setImages}
+                            filepickerRef={filepickerRef}
+                            setPostImage={setPostImage}
+                          />
                         </tbody>
                       </table>
+
+                      {/* Pagination */}
+                      <div className="flex justify-center">
+                        <button
+                          onClick={() => {
+                            setPage(page - 1);
+                          }}
+                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        >
+                          Previous Page
+                        </button>
+
+                        <button
+                          onClick={(e) => {
+                            setPage(page + 1);
+                          }}
+                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        >
+                          Next Page
+                        </button>
+                        <p className="text-center">
+                          Page {page} of {items.length / limit}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -2,6 +2,8 @@ import "./TrendingNow.css";
 import Carousel from "react-multi-carousel";
 import Card1 from "../Card1/Card1";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import CarouselLoading from "../CarouselLoading/CarouselLoading";
 
 export default function TrendingNow() {
   const [items, setItems] = useState([]);
@@ -9,12 +11,18 @@ export default function TrendingNow() {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch(
-        "http://localhost:8081/items/category/TrendingNow"
+      // const response = await fetch(
+      //   "http://localhost:8081/items"
+      // );
+      const response = await axios.post(
+        "http://localhost:8081/items/category",
+        {
+          category: "Garment Upper body",
+        }
       );
-      const data = await response.json();
-      const reversedData = data.reverse();
-      setItems(reversedData);
+      setItems(response.data);
+      // const reversedData = data.reverse();
+      // setItems(reversedData);
       setIsLoading(false);
     }
     fetchData();
@@ -53,11 +61,11 @@ export default function TrendingNow() {
       </div>
       <div>
         {isLoading ? (
-          <div>Loading...</div>
+          <CarouselLoading />
         ) : (
           <Carousel responsive={responsive}>
             {items.map((item) => (
-              <Card1 key={item.id} item={item} />
+              <Card1 key={item._id} item={item} />
             ))}
           </Carousel>
         )}

@@ -1,60 +1,47 @@
 import mongoose from "mongoose";
-const Schema = mongoose.Schema;
 
-// Create Schema
-const itemSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  price: {
-    type: Schema.Types.Decimal128,
-    required: true,
-  },
-  star: {
-    total: {
-      type: Number,
-      default: 0,
-    },
-    reviewers: [
-      {
-        comment: {
-          type: String,
-          required: true,
-        },
-        rate: {
-          type: Number,
-          required: true,
-        },
-      },
-      { timestamps: true },
-    ],
-  },
-  image: [
-    {
-      type: String,
-      required: true,
-    },
-  ],
-  sellerId: {
-    type: String,
-    required: true,
-  },
-  sellerEmail: {
-    type: String,
-    required: true,
-  },
-  category: {
-    type: String,
-    required: true,
-  },
+const reviewSchema = new mongoose.Schema({
+  clientId: mongoose.Schema.Types.ObjectId,
+  rating: Number,
+  comment: String,
+  timestamp: Date,
 });
 
-// Create collection and add schema
+const itemSchema = new mongoose.Schema({
+  article_id: Number,
+  product_code: Number,
+  name: String,
+  product_type_no: Number,
+  product_type_name: String,
+  category: String,
+  graphical_appearance_no: Number,
+  graphical_appearance_name: String,
+  colour_group_code: Number,
+  colour_group_name: String,
+  perceived_colour_value_id: Number,
+  perceived_colour_value_name: String,
+  perceived_colour_master_id: Number,
+  perceived_colour_master_name: String,
+  department_no: Number,
+  department_name: String,
+  index_code: String,
+  index_name: String,
+  index_group_no: Number,
+  index_group_name: String,
+  section_no: Number,
+  section_name: String,
+  garment_group_no: Number,
+  garment_group_name: String,
+  description: String,
+  image: Array,
+  price: Number,
+  ratings: {
+    averageRating: Number,
+    totalRatings: Number,
+  },
+  reviews: [reviewSchema],
+});
+
 const Item = mongoose.model("Item", itemSchema);
 
 export default Item;

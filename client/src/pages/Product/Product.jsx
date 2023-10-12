@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Footer from "../../components/Footer/Footer";
 import Navbar from "../../components/Navbar/Navbar";
 import axios from "axios";
@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import StarRatings from "react-star-ratings";
 import Reviews from "../../components/Reviews/Reviews";
 import jwtDecode from "jwt-decode";
+import Recommendation from "../../components/Recommendation/Recommendation";
 
 export default function Product() {
   const { id } = useParams();
@@ -18,25 +19,18 @@ export default function Product() {
   const [disableCart, setDisableCart] = useState();
   const [res, setRes] = useState({});
 
-  //quantity change
   const minusCount = () => {
     if (count > 1) {
       setCount(count - 1);
     }
   };
 
-  //quantity change
   const addCount = () => {
     setCount(count + 1);
   };
 
-  //image change
-  const avgStar =
-    item.star && item.star.reviewers && item.star.reviewers.length > 0
-      ? item.star.total / item.star.reviewers.length
-      : 0;
+  const avgStar = item && item.ratings && item.ratings.averageRating;
 
-  //add to cart
   async function AddtoCart() {
     const email = localStorage.getItem("email");
     const status = "cart";
@@ -52,13 +46,13 @@ export default function Product() {
             itemID: item._id,
             name: item.name,
             quantity: count,
-            price: item.price.$numberDecimal,
+            price: item.price,
             image: item.image[0],
-            sellerID: item.sellerId,
-            sellerEmail: item.sellerEmail,
+            sellerID: "65257b8203c39d6590f03b0a",
+            sellerEmail: "seller@gmail.com",
           },
         ],
-        total: item.price.$numberDecimal * count,
+        total: item.price * count,
         status: status,
         address: "",
         shippingMethod: "",
@@ -68,16 +62,16 @@ export default function Product() {
         itemID: item._id,
         name: item.name,
         quantity: count,
-        price: item.price.$numberDecimal,
+        price: item.price,
         image: item.image[0],
-        sellerID: item.sellerId,
-        sellerEmail: item.sellerEmail,
+        sellerID: "65257b8203c39d6590f03b0a",
+        sellerEmail: "seller@gmail.com",
       };
 
       if (res.isSuccess) {
         try {
           const res2 = await axios.post(
-            `http://localhost:8070/orders/${res.order[0]._id}/addItem`, //add item to cart
+            `http://localhost:8070/orders/${res.order[0]._id}/addItem`,
             newItem
           );
         } catch (err) {
@@ -86,7 +80,7 @@ export default function Product() {
       } else {
         console.log(Neworder);
         await axios
-          .post(`http://localhost:8070/orders`, Neworder) //create new cart
+          .post(`http://localhost:8070/orders`, Neworder)
           .then((res) => {})
           .catch((err) => {
             console.log(err);
@@ -98,7 +92,7 @@ export default function Product() {
   }
 
   async function fetchItem() {
-    const email = localStorage.getItem("email"); //get email from local storage
+    const email = localStorage.getItem("email");
     try {
       const [response1, response2, response3] = await Promise.all([
         fetch(`http://localhost:8070/items/${id}`),
@@ -123,30 +117,39 @@ export default function Product() {
 
   useEffect(() => {
     fetchItem()
-      .then((data) => {
-        // console.log(data);
-      })
+      .then((data) => {})
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  }, [id]);
 
   return (
     <>
       <Navbar />
-      <div
-        className="product"
-        style={{
-          paddingBottom: "80px",
-          // backgroundColor: "#34fafc",
-        }}
-      >
-        <div className="container">
-          <div className="flex justify-center items-center lg:flex-row flex-col gap-9">
-            <div className="w-full sm:w-96 md:w-8/12 lg:w-7/12 items-center">
-              <p className=" focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 font-normal text-base leading-4 text-gray-600">
-                Home / {"<<Category>>"}
-              </p>
+      <div className="">
+        <div className="h-[70px] items-center justify-center flex bg-[#f1f1f1]">
+          <div className="container mx-auto">
+            <p className="flex focus:outline-none focus:ring-2 focus:ring-offset-2 gap-8 focus:ring-gray-800 font-normal text-base leading-4 text-gray-600">
+              <p>{item.section_name}</p> / <p>{item.category}</p> /{" "}
+              <p>{item.product_type_name}</p>
+            </p>
+          </div>
+        </div>
+        <div className="container mx-auto mt-8">
+          <div className="w-[75%] mx-auto flex justify-center items-center lg:flex-row flex-col gap-20">
+            <div className="flex lg:flex-row flex-col lg:gap-8 sm:gap-6 gap-8">
+              <div className="w-[400px] bg-white flex justify-center items-center">
+                <img
+                  src={
+                    imagePreview
+                      ? imagePreview
+                      : item.image && item.image.length > 0 && item.image[0]
+                  }
+                  alt="Item Image"
+                />
+              </div>
+            </div>
+            <div className="w-full items-center">
               <h2
                 className="font-semibold lg:text-4xl text-3xl mt-4"
                 style={{
@@ -157,7 +160,7 @@ export default function Product() {
                 {item.name}
               </h2>
 
-              <div className=" flex flex-row justify-between  mt-5">
+              <div className="flex flex-row gap-10 items-center mt-5">
                 <div className=" flex flex-row space-x-3">
                   <StarRatings
                     starDimension="35px"
@@ -168,28 +171,38 @@ export default function Product() {
                     name="rating"
                   />
                 </div>
-                <p className="focus:outline-none font-normal text-base leading-4 text-gray-700  duration-100 mr-5">
-                  {item.star &&
-                  item.star.reviewers &&
-                  item.star.reviewers.length > 0
-                    ? item.star.reviewers.length
-                    : 0}{" "}
-                  reviews
+                <div className="h-[35px] flex items-center justify-center">
+                  <p className="items-center focus:outline-none font-normal text-lg text-base leading-4 text-gray-400 duration-100 mr-5">
+                    {item.ratings &&
+                      item.ratings.totalRatings &&
+                      item.ratings.totalRatings}
+                    <span className="ml-2">Reviews</span>
+                  </p>
+                </div>
+              </div>
+              <div className="pb-5">
+                <p className=" lg:text-xl text-2xl lg:leading-6 leading-5 mt-6">
+                  $ {item && item.price && item.price.toFixed(2)}
                 </p>
               </div>
-
-              <p className=" font-normal text-base leading-6 text-gray-600 mt-7">
+              <hr />
+              <p className=" font-normal text-base leading-6 text-gray-600 mt-7 mb-8">
                 {item.description}
               </p>
-              <p className=" font-semibold lg:text-2xl text-xl lg:leading-6 leading-5 mt-6">
-                ${item.price && item.price.$numberDecimal}
-              </p>
-
+              <hr />
+              <div className="grid grid-cols-3 gap-5 mt-5">
+                <p>Product Code : </p>
+                <p>Product Type : </p>
+                <p>Index Group : </p>
+                <span className="text-gray-400">{item.product_code}</span>
+                <span className="text-gray-400">{item.product_type_name}</span>
+                <span className="text-gray-400">{item.index_group_name}</span>
+              </div>
               {!localStorage.getItem("token") ? (
                 <></>
               ) : jwtDecode(localStorage.getItem("token")).role == "buyer" &&
                 !disableCart ? (
-                <div className="lg:mt-11 mt-10">
+                <div className="lg:mt-7 mt-5">
                   <div
                     className="flex flex-row"
                     style={{
@@ -203,7 +216,7 @@ export default function Product() {
                         marginRight: "50px",
                       }}
                     >
-                      Select quantity
+                      Select Quantity
                     </p>
                     <div
                       className="flex"
@@ -261,60 +274,18 @@ export default function Product() {
                 <></>
               )}
             </div>
-
-            <div
-              className=" w-full sm:w-96 md:w-8/12  lg:w-6/12 flex lg:flex-row flex-col lg:gap-8 sm:gap-6 gap-8"
-              style={{
-                marginLeft: "50px",
-              }}
-            >
-              <div className=" w-full lg:w-8/12 bg-white flex justify-center items-center">
-                <img
-                  src={
-                    imagePreview
-                      ? imagePreview
-                      : item.image && item.image.length > 0 && item.image[0]
-                  }
-                  alt="Wooden Chair Previw"
-                />
-              </div>
-              <div className=" w-full lg:w-4/12 grid lg:grid-cols-1 sm:grid-cols-4 grid-cols-2 gap-6">
-                <div className="bg-white flex justify-center items-center py-4 cursor-pointer">
-                  <img
-                    src={item.image && item.image.length > 0 && item.image[0]}
-                    alt="Wooden chair - preview 1"
-                    onClick={() => {
-                      setImagePreview(item.image[0]);
-                    }}
-                  />
-                </div>
-                <div className="bg-white flex justify-center items-center py-4 cursor-pointer">
-                  <img
-                    src={item.image && item.image.length > 0 && item.image[1]}
-                    alt="Wooden chair - preview 2"
-                    onClick={() => {
-                      setImagePreview(item.image[1]);
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
           </div>
+          <Recommendation article_id={item && item.article_id} />
         </div>
       </div>
       <Reviews
         reviews={
-          item.star && item.star.reviewers && item.star.reviewers.length > 0
-            ? item.star
-            : 0
+          item.reviews && item.reviews.length > 0
+            ? item.reviews.reverse()
+            : undefined
         }
-        star={avgStar}
         itemId={item._id && item._id}
-        reviewers={
-          item.star && item.star.reviewers && item.star.reviewers.length > 0
-            ? item.star.reviewers
-            : 0
-        }
+        item={item}
       />
       <Footer />
     </>

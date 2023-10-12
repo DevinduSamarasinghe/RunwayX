@@ -52,7 +52,7 @@ export default function Navbar() {
                   <Menu.Button className="flex gap-3">
                     <img
                       className="w-[40px] rounded-full border-[1px] border-slate-400"
-                      src="https://firebasestorage.googleapis.com/v0/b/vedra-8d493.appspot.com/o/user.png?alt=media&token=6954d498-070a-45e4-89f7-010b06f2a873"
+                      src="https://firebasestorage.googleapis.com/v0/b/surge-internship-march-2023.appspot.com/o/noprofile.png?alt=media&token=739a8587-3eb9-4d38-9e44-d887d2bf54e3"
                       alt="profile"
                     />
                     <p className="text-sm font-medium">

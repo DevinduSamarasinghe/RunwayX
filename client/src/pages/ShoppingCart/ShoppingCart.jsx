@@ -152,7 +152,10 @@ export default function ShoppingCart() {
                 {cart &&
                   cart.items &&
                   cart.items.map((item, index) => (
-                    <tr className="w-[100%] hover:bg-gray-100 border-t h-[130px]">
+                    <tr
+                      key={item._id}
+                      className="w-[100%] hover:bg-gray-100 border-t h-[130px]"
+                    >
                       <>
                         <td className="h-full">
                           <div className="flex w-full">
@@ -245,7 +248,7 @@ export default function ShoppingCart() {
             {cart &&
               cart.items &&
               cart.items.map((item) => (
-                <div className="flex justify-between mt-10 mb-5">
+                <div key={item._id} className="flex justify-between mt-10 mb-5">
                   <span className=" text-m w-[350px]">{item.name}</span>
                   <span className=" text-m">
                     ${(item.price * item.quantity).toFixed(2)}
