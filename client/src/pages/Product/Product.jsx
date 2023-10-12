@@ -2,6 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import Footer from "../../components/Footer/Footer";
 import Navbar from "../../components/Navbar/Navbar";
 import axios from "axios";
+import { ToastContainer, toast, Zoom, Bounce } from "react-toastify";
 import "./Product.css";
 import { useEffect, useState } from "react";
 import StarRatings from "react-star-ratings";
@@ -87,7 +88,9 @@ export default function Product() {
         console.log(Neworder);
         await axios
           .post(`http://localhost:8070/orders`, Neworder) //create new cart
-          .then((res) => {})
+          .then((res) => {
+            toast.success("Order Payment Approved!");
+          })
           .catch((err) => {
             console.log(err);
           });
@@ -144,8 +147,9 @@ export default function Product() {
         <div className="container">
           <div className="flex justify-center items-center lg:flex-row flex-col gap-9">
             <div className="w-full sm:w-96 md:w-8/12 lg:w-7/12 items-center">
+              <ToastContainer />
               <p className=" focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 font-normal text-base leading-4 text-gray-600">
-                Home / {"<<Category>>"}
+                <Link to={"/"}>Home / {item.category}</Link>
               </p>
               <h2
                 className="font-semibold lg:text-4xl text-3xl mt-4"
@@ -203,7 +207,7 @@ export default function Product() {
                         marginRight: "50px",
                       }}
                     >
-                      Select quantity
+                      Select Quantity
                     </p>
                     <div
                       className="flex"
@@ -247,14 +251,14 @@ export default function Product() {
                     className="bg-[#278a9e] text-white focus:outline-none font-medium rounded-lg text-sm px-5 py-3 text-center w-full mt-9"
                     disabled
                   >
-                    Added
+                    Item Added
                   </button>
                 ) : (
                   <button
                     className="bg-[#3ea7ac] hover:bg-[#278a9e] text-white focus:outline-none font-medium rounded-lg text-sm px-5 py-3 text-center w-full mt-9"
                     onClick={AddtoCart}
                   >
-                    Add to Shopping Cart
+                    Add To Shopping Cart
                   </button>
                 )
               ) : (
