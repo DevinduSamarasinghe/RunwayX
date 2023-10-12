@@ -15,6 +15,7 @@ import PendingOrders from "./pages/AdminDashboard/PendingOrders";
 import ConfirmedOrders from "./pages/AdminDashboard/ConfirmedOrders";
 import DispatchedOrders from "./pages/AdminDashboard/DispatchedOrders";
 import SellerDash from "./pages/SellerDashboard/SellerDash";
+import OrderStatistics from "./pages/SellerDashboard/OrderStats";
 import ItemManagement from "./pages/SellerDashboard/ItemManagement";
 import AddItemForm from "./pages/SellerDashboard/AddItemForm";
 import UpdateItemForm from "./pages/SellerDashboard/UpdateItemForm";
@@ -30,6 +31,8 @@ import RefundedOrders from "./pages/AdminDashboard/Refunded";
 import ProvisionReport from "./pages/SellerDashboard/ProvisionReport";
 import ItemReport from "./pages/SellerDashboard/ItemReport";
 import OrderReport from "./pages/ClientDashboard/OrderReport";
+import ClientInformation from "./pages/ClientDashboard/ClientInformation";
+import UpdateClient from "./pages/ClientDashboard/UpdateClient";
 
 function App() {
   return (
@@ -52,6 +55,8 @@ function App() {
         <Route path="/failed" element={<Unsuccesful />} />
         <Route path="/mypayments" element={<ClientPayments />} />
         <Route path="/orderReport" element={<OrderReport />} />
+        <Route path="/clientinfo" element={<ClientInformation />} />
+        <Route path="/update-client" element={<UpdateClient/>}/> 
         {/* Test method to fetch item information */}
         <Route
           path="/checkout/:6438fa2c518a57cbd5bdc8f4"
@@ -76,7 +81,8 @@ function App() {
         <Route path="/additem" element={<AddItemForm />} />
         <Route path="/updateitem" element={<UpdateItemForm />} />
         <Route path="/ProvisionReport" element={<ProvisionReport />} />
-        <Route path='/itemreport' element={<ItemReport />} />
+        <Route path="/itemreport" element={<ItemReport />} />
+        <Route path="/orderStats" element={<OrderStatistics />} />
 
         {/* You bullshit Shaggy: Add your routes here
          

@@ -256,16 +256,17 @@ const ItemManagement = () => {
                       >
                         Add new Item
                       </button>
-                      <Link to="/itemReport">
-                        <div className="mr-0 ml-auto">
+
+                      <div className="flex justify-end">
+                        <Link to="/itemReport">
                           <button
                             type="button"
                             className="font-bold py-1 px-4 rounded-md mx-3 my-1 text-white  hover:bg-slate-700 bg-slate-500"
                           >
-                            Show Report
+                            Generate Report
                           </button>
-                        </div>
-                      </Link>
+                        </Link>
+                      </div>
 
                       {/* Add item modal */}
                       <AddItemModal

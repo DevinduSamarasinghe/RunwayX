@@ -7,11 +7,14 @@ import { useStateContext } from '../../../../src/contexts/ContextProvider';
 import jwtDecode from 'jwt-decode';
 
 const UserProfile = () => {
-  const { currentColor } = useStateContext();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('email');
+    localStorage.removeItem('themeMode');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('colorMode');
     navigate('/');
   };
 

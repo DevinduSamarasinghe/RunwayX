@@ -1,0 +1,3 @@
+const redirect = (path,user)=>{
+    
+}

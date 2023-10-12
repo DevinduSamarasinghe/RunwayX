@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useStateContext } from "../../contexts/ContextProvider.js";
 import TableData from "../../components/Tailwind/components/Table/TableData.jsx";
 import TableHeader from "../../components/Tailwind/components/Table/TableHeader.jsx";
@@ -12,7 +12,7 @@ import {
   ThemeSettings,
 } from "../../components/Tailwind/components";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
-
+import { DateRangePickerComponent } from "@syncfusion/ej2-react-calendars";
 import axios from "axios";
 import SellerSidebar from "../../components/Tailwind/components/SellerSidebar.jsx";
 
@@ -20,7 +20,16 @@ import SellerSidebar from "../../components/Tailwind/components/SellerSidebar.js
 
 const SellerPayments = () => {
   //Contexts for themeSettings.
+  const [dateStart, setDateStart] = useState("");
+  const [dateEnd, setDateEnd] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
+  const navigate = useNavigate();
+  const toDateRange = () => {
+    navigate("/MaintainenceDateRange", {
+      state: { DS: dateStart, DE: dateEnd },
+    });
+  };
   const {
     setCurrentColor,
     setCurrentMode,
@@ -77,6 +86,25 @@ const SellerPayments = () => {
   }
   console.log("OrderItems: ", orderItems);
 
+  let dateRangeRef = (dateRange) => {
+    dateRangeRef = dateRange; // dateRangeRef is a reference to the DateRangePickerComponent
+  };
+
+  const filterDate = () => {
+    if (dateRangeRef.value && dateRangeRef.value.length > 0) {
+      const start = dateRangeRef.value[0];
+      const end = dateRangeRef.value[1];
+
+      setDateStart(start);
+      setDateEnd(end);
+      navigate("/MaintainenceDateRange", { state: { DS: start, DE: end } });
+    } else {
+      alert("Please select a date range");
+      setDateStart("");
+      setDateEnd("");
+    }
+  };
+
   return (
     <div>
       {/* DON'T CHANGE ANYTHING HERE */}
@@ -129,19 +157,32 @@ const SellerPayments = () => {
                 {/* PART AFTER THE RETURN STATEMENT */}
                 <div>
                   <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl dark:bg-secondary-dark-bg dark:text-white">
-                    <Header title="Payment Report" />
-                    <div className="mr-0 ml-auto">
-                      <Link to={"/ProvisionReport"}>
-                        {" "}
-                        {/* change this link your preview page */}
-                        <button
-                          type="button"
-                          className="py-1 px-4 rounded-lg text-white hover:bg-slate-700 bg-slate-500"
-                        >
-                          Generate Report
-                        </button>
-                      </Link>
+                    <Header title="Payment Invoice Details" />
+                    <div className=" flex items-center mb-5 ">
+                      <div>
+                        <input
+                          type="text"
+                          className=" block w-400 rounded-md bg-gray-100 focus:bg-white dark:text-black"
+                          placeholder="Search Here"
+                          onChange={(e) => {
+                            setSearchTerm(e.target.value);
+                          }}
+                        />
+                      </div>
+                      <div className="mr-0 ml-auto">
+                        <Link to={"/ProvisionReport"}>
+                          {" "}
+                          {/* change this link your preview page */}
+                          <button
+                            type="button"
+                            className="py-1 px-4 rounded-lg text-white hover:bg-slate-700 bg-slate-500"
+                          >
+                            Generate Report
+                          </button>
+                        </Link>
+                      </div>
                     </div>
+
                     <div className=" flex items-center mb-5 "></div>
                     <div className="block w-full overflow-x-auto rounded-lg">
                       <table className="w-full rounded-lg">
@@ -151,50 +192,77 @@ const SellerPayments = () => {
                             <TableHeader value="Client" />
                             <TableHeader value="Gross Total" />
                             <TableHeader value="Commission" />
+                            <TableHeader value="Invoice Date" />
                             <TableHeader value="Status" />
                           </tr>
                         </thead>
                         <tbody>
-                          {orders.map((data, key) => {
-                            if (
-                              data.status === "Confirmed" ||
-                              data.status === "Pending" ||
-                              data.status === "Dispatched"
-                            ) {
-                              let dataColor = "text-black dark:text-white";
-                              if (data.status === "Pending") {
-                                dataColor =
-                                  "text-orange-800 font-bold font-bold dark:text-orange-400";
-                              } else if (data.status === "Confirmed") {
-                                dataColor =
-                                  "text-blue-800 font-bold font-bold dark:text-blue-400";
-                              } else if (data.status === "Dispatched") {
-                                dataColor = "text-green-700 font-bold";
-                              } else if (data.status === "Refunded") {
-                                dataColor = "text-red-700 font-bold";
+                          {orders
+                            .filter((data) => {
+                              if (searchTerm == "") {
+                                return data;
+                              } else if (
+                                data.email.includes(searchTerm) ||
+                                data._id
+                                  .toLowerCase()
+                                  .includes(searchTerm.toLowerCase()) ||
+                                data.status
+                                  .toLowerCase()
+                                  .includes(searchTerm.toLowerCase())
+                              ) {
+                                return data;
                               }
-                              return (
-                                <tr
-                                  className="text-sm h-10 border dark:border-slate-600"
-                                  key={key}
-                                >
-                                  <TableData value={"INV " + data._id} />
-                                  <TableData value={data.email} />
-                                  <TableData
-                                    value={formatter.format(data.total)}
-                                  />
-                                  <TableData
-                                    value={formatter.format(data.total * 0.15)}
-                                  />
-                                  <td
-                                    className={`${dataColor} text-center px-3 align-middle border-l-0 border-r-0 text-m whitespace-nowrap p-3`}
+                            })
+                            .map((data, key) => {
+                              if (
+                                data.status === "Confirmed" ||
+                                data.status === "Pending" ||
+                                data.status === "Dispatched"
+                              ) {
+                                let dataColor = "text-black dark:text-white";
+                                if (data.status === "Pending") {
+                                  dataColor =
+                                    "text-orange-800 font-bold font-bold dark:text-orange-400";
+                                } else if (data.status === "Confirmed") {
+                                  dataColor =
+                                    "text-blue-800 font-bold font-bold dark:text-blue-400";
+                                } else if (data.status === "Dispatched") {
+                                  dataColor = "text-green-700 font-bold";
+                                } else if (data.status === "Refunded") {
+                                  dataColor = "text-red-700 font-bold";
+                                }
+                                return (
+                                  <tr
+                                    className="text-sm h-10 border dark:border-slate-600"
+                                    key={key}
                                   >
-                                    {data.status}
-                                  </td>
-                                </tr>
-                              );
-                            }
-                          })}
+                                    <TableData value={"INV " + data._id} />
+                                    <TableData value={data.email} />
+                                    <TableData
+                                      value={formatter.format(data.total)}
+                                    />
+                                    <TableData
+                                      value={formatter.format(
+                                        data.total * 0.15
+                                      )}
+                                    />
+                                    <td className="text-center px-3 align-middle border-l-0 border-r-0 text-m whitespace-nowrap p-3">
+                                      {data.invoiceDate
+                                        ? new Date(
+                                            data.invoiceDate
+                                          ).toLocaleDateString()
+                                        : new Date().toLocaleDateString()}{" "}
+                                      {/* Use today's date if invoiceDate is null */}
+                                    </td>
+                                    <td
+                                      className={`${dataColor} text-center px-3 align-middle border-l-0 border-r-0 text-m whitespace-nowrap p-3`}
+                                    >
+                                      {data.status}
+                                    </td>
+                                  </tr>
+                                );
+                              }
+                            })}
                         </tbody>
                       </table>
                       <br></br>
