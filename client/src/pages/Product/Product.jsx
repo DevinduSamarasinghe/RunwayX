@@ -134,8 +134,11 @@ export default function Product() {
           <div className="container mx-auto">
             <ToastContainer />
             <p className="flex focus:outline-none focus:ring-2 focus:ring-offset-2 gap-8 focus:ring-gray-800 font-normal text-base leading-4 text-gray-600">
-              <p>{item.section_name}</p> / <p>{item.category}</p> /{" "}
-              <p>{item.product_type_name}</p>
+              <p className="text-transform: capitalize">{item.section_name}</p>{" "}
+              / <p className="text-transform: capitalize">{item.category}</p> /{" "}
+              <p className="text-transform: capitalize">
+                {item.product_type_name}
+              </p>
             </p>
           </div>
         </div>
@@ -155,7 +158,7 @@ export default function Product() {
             </div>
             <div className="w-full items-center">
               <h2
-                className="font-semibold lg:text-4xl text-3xl mt-4"
+                className="font-semibold lg:text-4xl text-3xl mt-4 text-transform: capitalize"
                 style={{
                   lineHeight: "3.5rem",
                   color: "#1a202c",

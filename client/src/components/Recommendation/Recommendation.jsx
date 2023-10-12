@@ -51,7 +51,7 @@ function Recommendation({ article_id }) {
 
   return (
     <div className="container mt-20">
-      <h1 className="text-xl font-semi-bold mb-5">Similar Products</h1>
+      <h1 className="text-xl font-semi-bold mb-5">Related Products</h1>
 
       {isLoading ? (
         <CarouselLoading />

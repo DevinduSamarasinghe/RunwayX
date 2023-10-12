@@ -29,7 +29,7 @@ export default function Card1({ item }) {
               element="span"
               truncateText="…"
               text={item.name}
-              className="font-semibold text-base leading-6 text-gray-600 mt-7 mb-8"
+              className="font-semibold text-base leading-6 text-gray-600 mt-7 mb-8 text-transform: capitalize"
             />
           </div>
         </Link>
