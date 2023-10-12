@@ -4,6 +4,7 @@ import { useStateContext } from '../../../../contexts/ContextProvider'
 import { Tabs, Tab } from '@mui/material'
 import useUserInfo from '../../../../hooks/userinfo/useUserInfo'
 import { useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify'
 
 const InfoForm = () => {
 
@@ -34,6 +35,11 @@ const InfoForm = () => {
   const [city, setCity] = useState('');
   const [postal, setPostal] = useState('');
 
+  //validation states
+  const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(true);
+  
+  
+
   useEffect(()=>{
     setUser(localStorage.getItem('userId'));
   },[])
@@ -54,6 +60,7 @@ const InfoForm = () => {
         bio
       });
       navigate('/client');
+      toast.success("User Information added successfully!");
       console.log(response);
     }catch(error){
       console.error(error);
@@ -62,6 +69,7 @@ const InfoForm = () => {
 
   return (
     <div>
+        <ToastContainer/>
       <Tabs textColor={currentMode !== 'Light' ? 'gray-200' : 'white'} value={activeSteps} sx={{ justifyContent: 'center', }}>
         <Tab  label='Step 1' disabled sx={{ width: '33%' }} />
         <Tab label='Step 2' disabled sx={{ width: '33%' }} />
@@ -189,7 +197,12 @@ const InfoForm = () => {
             <TextInput
               value={phone}
               onChange={(e)=>{
-                setPhone(e.target.value);
+                const inputvalue = e.target.value;
+                setPhone(inputvalue);
+
+                //Check if the phone validation is right using regex
+                const phoneRegex = /^[7]\d{8}$/;
+                setIsPhoneNumberValid(phoneRegex.test(inputvalue));
               }}
               className='shadow-lg'
               addon='+94'
@@ -197,6 +210,7 @@ const InfoForm = () => {
               sizing='md'
               type='text'
             />
+            {!isPhoneNumberValid &&<div className='text-red-500 text-sm mt-2'>Phone number should be 9 digits long and start with 7</div>}
           </div>
           <div className='flex mt-5'>
             <Button
