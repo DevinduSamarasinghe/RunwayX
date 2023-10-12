@@ -4,6 +4,7 @@ import axios from "axios";
 import jwtdecode from "jwt-decode";
 import { Link } from "react-router-dom";
 import useUserInfo from "../../hooks/userinfo/useUserInfo";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Signin() {
   const [email, setEmail] = useState("");
@@ -29,6 +30,7 @@ export default function Signin() {
       if (decoded.role === "seller") {
         localStorage.setItem("sellerId", decoded._id);
         localStorage.setItem("email", decoded.email);
+        toast.success("Login Successful!");
         navigate("/seller");
       } else if (decoded.role === "buyer") {
           localStorage.setItem("email", decoded.email);
@@ -36,15 +38,17 @@ export default function Signin() {
           console.log("Decoded Code: ",decoded._id);
           const data = await getUserInfoByUserId(decoded._id);
           if(!data){
+            toast.success('Login Successful. Please fill the details below');
             navigate(`/clientinfo`);
           }else{
+            toast.success('Login Successful!');
             navigate("/");
           }
       } else {
         navigate("/admin");
       }
     } catch (err) {
-      alert("Login Failed");
+      toast.error("Login Failed!" + err);
     }
   };
 
