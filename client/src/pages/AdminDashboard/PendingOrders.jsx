@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useStateContext } from "../../contexts/ContextProvider.js";
 import TableData from "../../components/Tailwind/components/Table/TableData.jsx";
 import TableHeader from "../../components/Tailwind/components/Table/TableHeader.jsx";
@@ -27,9 +27,9 @@ const PendingOrders = () => {
     themeSettings,
     setThemeSettings,
   } = useStateContext();
-
+  const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
-
+  const [searchTerm, setSearchTerm] = useState("");
   const getOrders = async () => {
     await axios
       .get(`http://localhost:8070/orders`) //change the url
@@ -67,6 +67,7 @@ const PendingOrders = () => {
         status = "Refunded";
       } else {
         status = "Confirmed";
+        navigate("/confirmed");
       }
       await axios
         .patch(`http://localhost:8070/orders/updateStatus`, { id, status })
@@ -146,7 +147,16 @@ const PendingOrders = () => {
                 <div>
                   <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl dark:bg-secondary-dark-bg dark:text-white">
                     <Header title="Pending Orders " />
-
+                    <div>
+                      <input
+                        type="text"
+                        className=" block w-350 rounded-md bg-gray-100 focus:bg-white dark:text-black"
+                        placeholder="Search Order"
+                        onChange={(e) => {
+                          setSearchTerm(e.target.value);
+                        }}
+                      />
+                    </div>
                     <div className=" flex items-center mb-5 "></div>
                     <div className="block w-full overflow-x-auto rounded-lg">
                       <table className="w-full rounded-lg">

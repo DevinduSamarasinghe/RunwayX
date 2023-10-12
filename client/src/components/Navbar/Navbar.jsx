@@ -1,7 +1,7 @@
 import "./Navbar.css";
 import SearchBar from "../SearchBar/SearchBar";
 import { Link, redirect, useNavigate } from "react-router-dom";
-import { UilShoppingBag } from "@iconscout/react-unicons";
+import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Fragment } from "react";
@@ -43,7 +43,7 @@ export default function Navbar() {
         </div>
         <div className="flex items-center gap-6">
           <Link to={"/cart"}>
-            <UilShoppingBag className="cartIcon" />
+            <AiOutlineShoppingCart className="cartIcon" />
           </Link>
           {token.email ? (
             <>
