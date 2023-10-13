@@ -151,12 +151,11 @@ export default function Signup() {
                         required
                         onChange={(e) => {
                           const inputValue = e.target.value;
-
+                          setEmail(inputValue);
                           //check email validation using regular expression 
                           const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
                           setIsEmailValid(emailRegex.test(inputValue));
                         }}
-                        pattern="[._a-z0-9]+@+[a-z]+.com"
                       />
                       {!isEmailValid && <div className='text-red-500 text-sm mt-2'>Email should include @ and a '.' in the address</div>}
                     </div>
