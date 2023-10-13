@@ -40,6 +40,7 @@ const ItemManagement = () => {
   const [state, setState] = useState(false);
   const [cartDelete, setCartDelete] = useState({});
   const [page, setPage] = useState(1); // Initial page number
+  const [limitx, setLimitx] = useState(20); // Items per page
   const limit = 10; // Items per page
   const [itemID, setItemID] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -103,13 +104,33 @@ const ItemManagement = () => {
 
     await uploadFiles().then((res) => {
       const item = {
+        article_id: Math.floor(Math.random() * 1000000) + 1,
+        product_code: Math.floor(Math.random() * 1000000) + 1,
         name,
-        description,
-        price,
-        image: res,
-        sellerId,
-        sellerEmail,
+        product_type_no: Math.floor(Math.random() * 1000000) + 1,
+        product_type_name: "Default",
         category,
+        graphical_appearance_no: Math.floor(Math.random() * 1000000) + 1,
+        graphical_appearance_name: "Default",
+        colour_group_code: Math.floor(Math.random() * 1000000) + 1,
+        colour_group_name: "Default",
+        perceived_colour_value_id: Math.floor(Math.random() * 1000000) + 1,
+        perceived_colour_value_name: "Default",
+        perceived_colour_master_id: Math.floor(Math.random() * 1000000) + 1,
+        perceived_colour_master_name: "Default",
+        department_no: Math.floor(Math.random() * 1000000) + 1,
+        department_name: "Default",
+        index_code: Math.floor(Math.random() * 1000000) + 1,
+        index_name: "Default",
+        index_group_no: Math.floor(Math.random() * 1000000) + 1,
+        index_group_name: "Default",
+        section_no: Math.floor(Math.random() * 1000000) + 1,
+        section_name: "Default",
+        garment_group_no: Math.floor(Math.random() * 1000000) + 1,
+        garment_group_name: "Default",
+        description,
+        image: res,
+        price,
       };
 
       console.log(item);
@@ -182,12 +203,12 @@ const ItemManagement = () => {
     const fetchItems = async () => {
       const sellerId = localStorage.getItem("sellerId");
       const res = await axios.get(
-        `http://localhost:8081/items?page=${page}&limit=500`
+        `http://localhost:8081/items?page=${page}&limit=${limitx}`
       );
       setItems(res.data);
     };
     fetchItems();
-  }, [showModal, showUpdateModal, state, page]);
+  }, [showModal, showUpdateModal, state, page, limitx]);
 
   return (
     <div>
@@ -292,6 +313,16 @@ const ItemManagement = () => {
                           value={searchTerm}
                           onChange={(e) => setSearchTerm(e.target.value)}
                         />
+                        <select
+                          className="w-[300px] h-[40px] bg-white px-5 pr-16 rounded-lg text-sm focus:outline-none focus:border-gray-400"
+                          onChange={(e) => {
+                            setLimitx(e.target.value);
+                          }}
+                        >
+                          <option value="20">20</option>
+                          <option value="100">100</option>
+                          <option value="500">500</option>
+                        </select>
                       </div>
 
                       {/* table to store item data */}
@@ -408,7 +439,7 @@ const ItemManagement = () => {
                       </table>
 
                       {/* Pagination */}
-                      <div className="flex justify-center">
+                      <div className="flex justify-center mt-10">
                         <button
                           onClick={() => {
                             setPage(page - 1);

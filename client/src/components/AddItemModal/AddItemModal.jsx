@@ -64,11 +64,11 @@ export default function AddItemModal({
                             setCategory(e.target.value);
                           }}
                         >
-                          <option>Select category</option>
-                          <option value="TrendingNow">Trending Now</option>
-                          <option value="Specials">Specials</option>
-                          <option value="NewArrivals">New Arrivals</option>
-                          <option value="BestSellers">Best Sellers</option>
+                          <option>Select Category</option>
+                          <option value="Garment Upper Body">Garment Upper Body</option>
+                          <option value="Garment Lower Body">Garment Lower Body</option>
+                          <option value="Garment Full Body">Garment Full Body</option>
+                          <option value="Underware">Underware</option>
                         </select>
                       </div>
                       <div className="w-full">
