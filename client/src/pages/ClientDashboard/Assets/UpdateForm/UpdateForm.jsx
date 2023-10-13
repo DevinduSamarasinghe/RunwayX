@@ -3,6 +3,8 @@ import { Button, Select, TextInput, Textarea } from 'flowbite-react'
 import { useStateContext } from '../../../../contexts/ContextProvider';
 import { Header } from '../../../../components/Tailwind/components';
 import useUserInfo from '../../../../hooks/userinfo/useUserInfo';
+import {toast,ToastContainer} from 'react-toastify';
+
 const UpdateForm = ({user, userId}) => {
 
   const { currentColor } = useStateContext();
@@ -47,8 +49,8 @@ const UpdateForm = ({user, userId}) => {
       const response = await updateUserInfo(userId, {
         firstName, lastName, email, age, gender, address, profession, phone, bio
       });
+      toast.success("User Profile Updated Successfully!");
       console.log(response);
-      alert('Update Successful!');
 
     }catch(error){
       console.error(error);
@@ -57,6 +59,7 @@ const UpdateForm = ({user, userId}) => {
 
   return (
     <>
+      <ToastContainer/>
       <form>
         <Header category='Client' title={'Update Your Profile'} />
         <div className='py-4'>
@@ -252,7 +255,7 @@ const UpdateForm = ({user, userId}) => {
             size={'lg'}
             className='shadow-lg bg-rose-500 ml-10'
             onClick={() => handleSubmit()}
-            style={{ width: '100px', backgroundColor: currentColor }}
+            style={{ width: '200px', backgroundColor: currentColor }}
           >
             Confirm Profile
           </Button>

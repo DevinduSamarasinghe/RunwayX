@@ -3,12 +3,18 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Signup.css";
 
+import { ToastContainer, toast } from "react-toastify";
+
 export default function Signup() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [role, setRole] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  //validations 
+  const [isEmailValid, setIsEmailValid] = useState(true);
+
   let navigate = useNavigate();
 
   // handle submit
@@ -26,9 +32,10 @@ export default function Signup() {
     try {
       await axios.post("http://localhost:8070/users/register", newUser); //register user
       // alert("Registration Successfull");
+      toast.success("Registration Successfull!");
       navigate("/signin");
     } catch (err) {
-      alert("User Registration Failed");
+      toast.error("Registration Failed!");
     }
   };
 
@@ -41,6 +48,7 @@ export default function Signup() {
 
   return (
     <div className="signup">
+      <ToastContainer />
       <section className="bg-gray-50 dark:bg-gray-900">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <Link
@@ -140,12 +148,16 @@ export default function Signup() {
                         id="email"
                         className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="samaple@mail.com"
-                        required="required"
+                        required
                         onChange={(e) => {
-                          setEmail(e.target.value);
+                          const inputValue = e.target.value;
+                          setEmail(inputValue);
+                          //check email validation using regular expression 
+                          const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+                          setIsEmailValid(emailRegex.test(inputValue));
                         }}
-                        pattern="[._a-z0-9]+@+[a-z]+.com"
                       />
+                      {!isEmailValid && <div className='text-red-500 text-sm mt-2'>Email should include @ and a '.' in the address</div>}
                     </div>
                     <div className="col-span-2">
                       <label
@@ -160,7 +172,7 @@ export default function Signup() {
                         id="password"
                         placeholder="••••••••"
                         className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        required="required"
+                        required
                         onChange={(e) => {
                           setPassword(e.target.value);
                         }}
