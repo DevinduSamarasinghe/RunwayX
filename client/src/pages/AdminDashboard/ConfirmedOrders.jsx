@@ -171,60 +171,76 @@ const ConfirmedOrders = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {orders.map((data) => {
-                            if (data.status === "Confirmed") {
-                              return (
-                                <tr className="text-sm h-10 border dark:border-slate-600">
-                                  <TableData value={data._id} />
-                                  <TableData value={data.email} />
-                                  <TableData
-                                    value={formatter.format(data.total)}
-                                  />
-                                  <TableData
-                                    value={formatter.format(data.total * 0.15)}
-                                  />
-                                  <TableData value={data.status} />
-                                  <td className="text-center px-3 align-middle border-l-0 border-r-0 text-m whitespace-nowrap p-3">
-                                    <button
-                                      type="button"
-                                      className="font-bold py-1 px-4 rounded-full mx-3 text-white"
-                                      style={{ background: currentColor }}
-                                      value="Approve"
-                                      onClick={() =>
-                                        orderStatus(data._id, "Approve")
-                                      }
-                                    >
-                                      {" "}
-                                      Dispatch Order
-                                      <i className="fas fa-edit" />
-                                    </button>
-
-                                    <button
-                                      type="button"
-                                      className="font-bold py-1 px-4 rounded-full mx-3 text-white"
-                                      style={{ background: "red" }}
-                                      onClick={() =>
-                                        orderStatus(data._id, "Reject")
-                                      }
-                                    >
-                                      {" "}
-                                      Refund Order
-                                      <i className="fas fa-edit" />
-                                    </button>
-
-                                    <Link to={`/orders/${data._id}`}>
+                          {orders
+                            .filter((data) => {
+                              if (searchTerm == "") {
+                                return data;
+                              } else if (
+                                data._id.includes(searchTerm) ||
+                                data.email.includes(searchTerm) ||
+                                data.status
+                                  .toLowerCase()
+                                  .includes(searchTerm.toLowerCase())
+                              ) {
+                                return data;
+                              }
+                            })
+                            .map((data) => {
+                              if (data.status === "Confirmed") {
+                                return (
+                                  <tr className="text-sm h-10 border dark:border-slate-600">
+                                    <TableData value={data._id} />
+                                    <TableData value={data.email} />
+                                    <TableData
+                                      value={formatter.format(data.total)}
+                                    />
+                                    <TableData
+                                      value={formatter.format(
+                                        data.total * 0.15
+                                      )}
+                                    />
+                                    <TableData value={data.status} />
+                                    <td className="text-center px-3 align-middle border-l-0 border-r-0 text-m whitespace-nowrap p-3">
                                       <button
                                         type="button"
-                                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-4 rounded-full"
+                                        className="font-bold py-1 px-4 rounded-full mx-3 text-white"
+                                        style={{ background: currentColor }}
+                                        value="Approve"
+                                        onClick={() =>
+                                          orderStatus(data._id, "Approve")
+                                        }
                                       >
-                                        View Order
+                                        {" "}
+                                        Dispatch Order
+                                        <i className="fas fa-edit" />
                                       </button>
-                                    </Link>
-                                  </td>
-                                </tr>
-                              );
-                            }
-                          })}
+
+                                      <button
+                                        type="button"
+                                        className="font-bold py-1 px-4 rounded-full mx-3 text-white"
+                                        style={{ background: "red" }}
+                                        onClick={() =>
+                                          orderStatus(data._id, "Reject")
+                                        }
+                                      >
+                                        {" "}
+                                        Refund Order
+                                        <i className="fas fa-edit" />
+                                      </button>
+
+                                      <Link to={`/orders/${data._id}`}>
+                                        <button
+                                          type="button"
+                                          className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-4 rounded-full"
+                                        >
+                                          View Order
+                                        </button>
+                                      </Link>
+                                    </td>
+                                  </tr>
+                                );
+                              }
+                            })}
                         </tbody>
                       </table>
                       <br></br>

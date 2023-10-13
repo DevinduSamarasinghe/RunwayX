@@ -168,38 +168,54 @@ const DispatchedOrders = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {orders.map((data) => {
-                            if (data.status === "Dispatched") {
-                              return (
-                                <tr className="text-sm h-10 border dark:border-slate-600">
-                                  <TableData value={data._id} />
-                                  <TableData
-                                    style={{ textColor: "red" }}
-                                    value={data.email}
-                                  />
-                                  <TableData
-                                    value={formatter.format(data.total)}
-                                  />
-                                  <TableData
-                                    value={formatter.format(data.total * 0.15)}
-                                  />
-                                  <TableData value={data.status} />
+                          {orders
+                            .filter((data) => {
+                              if (searchTerm == "") {
+                                return data;
+                              } else if (
+                                data._id.includes(searchTerm) ||
+                                data.email.includes(searchTerm) ||
+                                data.status
+                                  .toLowerCase()
+                                  .includes(searchTerm.toLowerCase())
+                              ) {
+                                return data;
+                              }
+                            })
+                            .map((data) => {
+                              if (data.status === "Dispatched") {
+                                return (
+                                  <tr className="text-sm h-10 border dark:border-slate-600">
+                                    <TableData value={data._id} />
+                                    <TableData
+                                      style={{ textColor: "red" }}
+                                      value={data.email}
+                                    />
+                                    <TableData
+                                      value={formatter.format(data.total)}
+                                    />
+                                    <TableData
+                                      value={formatter.format(
+                                        data.total * 0.15
+                                      )}
+                                    />
+                                    <TableData value={data.status} />
 
-                                  <Link
-                                    to={`/orders/${data._id}`}
-                                    className="pl-16"
-                                  >
-                                    <button
-                                      type="button"
-                                      className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-4 rounded-full my-2"
+                                    <Link
+                                      to={`/orders/${data._id}`}
+                                      className="pl-16"
                                     >
-                                      View Order
-                                    </button>
-                                  </Link>
-                                </tr>
-                              );
-                            }
-                          })}
+                                      <button
+                                        type="button"
+                                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-4 rounded-full my-2"
+                                      >
+                                        View Order
+                                      </button>
+                                    </Link>
+                                  </tr>
+                                );
+                              }
+                            })}
                         </tbody>
                       </table>
                       <br></br>
