@@ -4,14 +4,24 @@ import axios from "axios";
 import jwtdecode from "jwt-decode";
 import { Link } from "react-router-dom";
 import useUserInfo from "../../hooks/userinfo/useUserInfo";
-import { ToastContainer, toast } from "react-toastify";
+import { useStateContext } from "../../contexts/ContextProvider";
+import {toast, ToastContainer} from 'react-toastify';
+import { Toast } from "flowbite-react";
 
 export default function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  const {isDeleted,setIsDeleted} = useStateContext();
   const {getUserInfoByUserId} = useUserInfo();
+
+  // useEffect(()=>{
+  //   if(isDeleted){
+  //     toast.success('Account Deleted Successfully!');
+  //     setIsDeleted(false);
+  //   }
+  // },[Signin])
 
   // handle submit
   const submitHandler = async (e) => {
@@ -61,6 +71,7 @@ export default function Signin() {
 
   return (
     <div className="signin">
+      <ToastContainer />
       <section className="bg-gray-50 dark:bg-gray-900">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <Link
