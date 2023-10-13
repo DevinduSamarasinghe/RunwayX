@@ -39,6 +39,8 @@ const ItemReport = () => {
   const [category, setCategory] = useState("");
   const [state, setState] = useState(false);
   const [cartDelete, setCartDelete] = useState({});
+  const [page, setPage] = useState(1);
+  const [limitx, setLimitx] = useState(10);
 
   const navigate = useNavigate();
 
@@ -179,7 +181,7 @@ const ItemReport = () => {
     const fetchItems = async () => {
       const sellerId = localStorage.getItem("sellerId");
       const res = await axios.get(
-        `http://localhost:8070/items/seller/${sellerId}`
+        `http://localhost:8070/items?page=${page}&limit=${limitx}`
       );
       setItems(res.data);
     };
@@ -323,7 +325,7 @@ const ItemReport = () => {
                               <td className="px-6 py-4">{item.name}</td>
                               <td className="px-6 py-4">{item.category}</td>
                               <td className="px-6 py-4">
-                                ${item.price.$numberDecimal}
+                                ${item.price.toFixed(2)}
                               </td>
 
                             </tr>
